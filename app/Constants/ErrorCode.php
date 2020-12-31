@@ -1,14 +1,6 @@
 <?php
-
 declare(strict_types=1);
-/**
- * This file is part of Hyperf.
- *
- * @link     https://www.hyperf.io
- * @document https://hyperf.wiki
- * @contact  group@hyperf.io
- * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
- */
+
 namespace App\Constants;
 
 use Hyperf\Constants\AbstractConstants;
@@ -20,7 +12,17 @@ use Hyperf\Constants\Annotation\Constants;
 class ErrorCode extends AbstractConstants
 {
     /**
-     * @Message("Server Error！")
+     * @Message("请求成功")
      */
-    const SERVER_ERROR = 500;
+    const REQUEST_SUCCESS = 1000;
+
+    /**
+     * @Message("请求失败")
+     */
+    const REQUEST_ERROR = 1001;
+
+    /**
+     * @Message("请先进行登录")
+     */
+    const REQUEST_INVALID = 1005;
 }
