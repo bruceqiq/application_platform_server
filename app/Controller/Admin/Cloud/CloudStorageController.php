@@ -4,7 +4,8 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Cloud;
 
 use App\Controller\BaseController;
-use App\Services\Admin\Cloud\CloudService;
+use App\Request\Admin\CloudStorageValidate;
+use App\Services\Admin\Cloud\CloudStorageService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\DeleteMapping;
@@ -14,16 +15,16 @@ use Hyperf\HttpServer\Annotation\PutMapping;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * 云服务
+ * 云服务存储
  * Class CloudSController
- * @Controller(prefix="admin/cloud")
+ * @Controller(prefix="admin/cloud/storage")
  * @package App\Controller\Admin\Cloud
  */
-class CloudSController extends BaseController
+class CloudStorageController extends BaseController
 {
     /**
      * @Inject()
-     * @var CloudService
+     * @var CloudStorageService
      */
     protected $cloudStoreService;
 
@@ -41,10 +42,11 @@ class CloudSController extends BaseController
 
     /**
      * @PostMapping(path="store")
+     * @param CloudStorageValidate $validate
      * @return ResponseInterface
      * @author kert
      */
-    public function store()
+    public function store(CloudStorageValidate $validate)
     {
         $createResult = $this->cloudStoreService->cloudStore((array)$this->request->all());
 
@@ -53,12 +55,15 @@ class CloudSController extends BaseController
 
     /**
      * @PutMapping(path="update")
+     * @param CloudStorageValidate $validate
      * @return ResponseInterface
      * @author kert
      */
-    public function update()
+    public function update(CloudStorageValidate $validate)
     {
-        return $this->response->success();
+        $updateResult = $this->cloudStoreService->cloudUpdate((array)$this->request->all());
+
+        return $updateResult ? $this->response->success() : $this->response->error();
     }
 
     /**
@@ -68,6 +73,8 @@ class CloudSController extends BaseController
      */
     public function delete()
     {
-        return $this->response->success();
+        $deleteResult = $this->cloudStoreService->cloudDelete((array)$this->request->all());
+
+        return $deleteResult ? $this->response->success() : $this->response->error();
     }
 }

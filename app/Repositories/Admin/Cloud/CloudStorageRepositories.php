@@ -1,0 +1,66 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Repositories\Admin\Cloud;
+
+use App\Model\Admin\CloudStorage;
+
+/**
+ * 云服务存储
+ * Class CloudService
+ * @package App\Repositories\Admin\Cloud
+ */
+class CloudStorageRepositories
+{
+    private $cloudModel = null;
+
+    public function __construct()
+    {
+        $this->cloudModel = new CloudStorage;
+    }
+
+    public function cloudSelect(array $searchWhere, int $perSize): array
+    {
+        $items = $this->cloudModel::query()
+            ->with(['platform:id,name'])
+            ->select($this->cloudModel->searchFields)
+            ->where($searchWhere)
+            ->paginate($perSize);
+
+        return [
+            'items' => $items->items(),
+            'page'  => $items->currentPage(),
+            'size'  => $perSize,
+            'total' => $items->total(),
+        ];
+    }
+
+    public function cloudStore(array $requestParams): bool
+    {
+        try {
+            $result = $this->cloudModel::query()->create($requestParams);
+        } catch (\Exception $exception) {
+            $result = false;
+        }
+
+        return $result ? true : false;
+    }
+
+    public function cloudUpdate(array $requestParams, int $id): bool
+    {
+        try {
+            $result = $this->cloudModel::query()->where([['id', '=', $requestParams['id']]])->update($requestParams);
+        } catch (\Exception $exception) {
+            $result = false;
+        }
+
+        return $result ? true : false;
+    }
+
+    public function cloudDelete(array $deleteWhere): bool
+    {
+        $result = $this->cloudModel::query()->where($deleteWhere)->delete();
+
+        return $result ? true : false;
+    }
+}
