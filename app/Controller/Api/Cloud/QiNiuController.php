@@ -5,6 +5,7 @@ namespace App\Controller\Api\Cloud;
 
 use App\Controller\BaseController;
 use App\Libs\Cache\Redis;
+use App\Libs\Guzzle\Guzzle;
 use App\Request\Api\KeyValidate;
 use App\Services\Api\Cloud\CloudStorageService;
 use Hyperf\Di\Annotation\Inject;
@@ -27,6 +28,12 @@ class QiNiuController extends BaseController
     protected $cloudService;
 
     /**
+     * @Inject()
+     * @var Guzzle
+     */
+    protected $guzzleLib;
+
+    /**
      * @GetMapping(path="token")
      * @param KeyValidate $validate
      * @return ResponseInterface
@@ -47,5 +54,13 @@ class QiNiuController extends BaseController
                 'expire_time' => $bean['expire_time'],
             ]);
         }
+    }
+
+    /**
+     * @GetMapping(path="show")
+     */
+    public function show()
+    {
+        $this->guzzleLib->getRequest((string)'https://yuanlinhui.yiputouzi.com/admin/common/qn/upload/token', (array)['key' => 'e82f3283ebeb40b3fe2f247be5e8ec61']);
     }
 }
