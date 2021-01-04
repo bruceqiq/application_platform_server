@@ -1,12 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller\Admin\WeChat;
+namespace App\Controller\Admin\Token;
 
 
 use App\Controller\BaseController;
-use App\Services\Admin\WeChat\TokenService;
+use App\Request\Admin\AppTokenValidate;
+use App\Services\Admin\Token\TokenService;
 use Hyperf\Di\Annotation\Inject;
+use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\DeleteMapping;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
@@ -16,7 +18,8 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * 微信
  * Class TokenController
- * @package App\Controller\Admin\WeChat
+ * @Controller(prefix="admin/app/token")
+ * @package App\Controller\Admin\Token
  */
 class TokenController extends BaseController
 {
@@ -40,10 +43,11 @@ class TokenController extends BaseController
 
     /**
      * @PostMapping(path="store")
+     * @param AppTokenValidate $validate
      * @return ResponseInterface
      * @author kert
      */
-    public function store()
+    public function store(AppTokenValidate $validate)
     {
         $createResult = $this->tokenService->tokenCreate((array)$this->request->all());
 
@@ -52,10 +56,11 @@ class TokenController extends BaseController
 
     /**
      * @PutMapping(path="update")
+     * @param AppTokenValidate $validate
      * @return ResponseInterface
      * @author kert
      */
-    public function update()
+    public function update(AppTokenValidate $validate)
     {
         $updateResult = $this->tokenService->tokenUpdate((array)$this->request->all());
 

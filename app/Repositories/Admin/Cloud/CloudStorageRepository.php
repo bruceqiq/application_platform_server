@@ -10,7 +10,7 @@ use App\Model\Admin\CloudStorage;
  * Class CloudService
  * @package App\Repositories\Admin\Cloud
  */
-class CloudStorageRepositories
+class CloudStorageRepository
 {
     private $cloudModel = null;
 

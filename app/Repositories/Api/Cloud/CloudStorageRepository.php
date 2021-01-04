@@ -4,20 +4,20 @@ declare(strict_types=1);
 namespace App\Repositories\Api\Cloud;
 
 use App\Model\Api\CloudStorage;
+use Hyperf\Di\Annotation\Inject;
 
 /**
  * 云服务存储
  * Class CloudService
  * @package App\Repositories\Admin\Cloud
  */
-class CloudStorageRepositories
+class CloudStorageRepository
 {
-    private $cloudModel = null;
-
-    public function __construct()
-    {
-        $this->cloudModel = new CloudStorage;
-    }
+    /**
+     * @Inject()
+     * @var CloudStorage
+     */
+    private $cloudModel;
 
     public function cloudFind(array $searchWhere): array
     {

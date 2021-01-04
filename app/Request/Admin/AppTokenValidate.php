@@ -6,7 +6,7 @@ namespace App\Request\Admin;
 
 use Hyperf\Validation\Request\FormRequest;
 
-class WeChatTokenValidate extends FormRequest
+class AppTokenValidate extends FormRequest
 {
     public function authorize(): bool
     {

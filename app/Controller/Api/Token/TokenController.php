@@ -1,38 +1,36 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller\Api\Cloud;
+namespace App\Controller\Api\Token;
+
 
 use App\Controller\BaseController;
 use App\Libs\Cache\Redis;
-use App\Libs\Guzzle\Guzzle;
-use App\Request\Api\KeyValidate;
-use App\Services\Api\Cloud\CloudStorageService;
+use App\Services\Api\Token\TokenService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * 七牛云
- * Class QiNiuController
- * @Controller(prefix="cloud/qiniu")
- * @package App\Controller\Api\Cloud
+ * Class TokenController
+ * @Controller(prefix="app/token")
+ * @package App\Controller\Api\Token
  */
-class QiNiuController extends BaseController
+class TokenController extends BaseController
 {
     /**
      * @Inject()
-     * @var CloudStorageService
+     * @var TokenService
      */
-    protected $cloudService;
+    protected $tokenService;
 
     /**
      * @GetMapping(path="token")
-     * @param KeyValidate $validate
      * @return ResponseInterface
+     * @author kert
      */
-    public function token(KeyValidate $validate)
+    public function token()
     {
         $key       = $this->request->input('key', '');
         $cacheInfo = (Redis::getRedisInstance())->redis->get($key);
@@ -41,7 +39,7 @@ class QiNiuController extends BaseController
             return $this->response->success((array)$info);
         } else {
             // 重新获取 token
-            $bean = $this->cloudService->findCloud((array)['key' => $key]);
+            $bean = $this->tokenService->findCloud((array)['key' => $key]);
             return $this->response->success((array)[
                 'key'         => $key,
                 'token'       => $bean['token'],

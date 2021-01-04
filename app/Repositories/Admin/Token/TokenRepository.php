@@ -1,22 +1,22 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Repositories\Admin\WeChat;
+namespace App\Repositories\Admin\Token;
 
-use App\Model\Admin\WeChatToken;
+use App\Model\Admin\TokenStorage;
 
 /**
  * 微信
  * Class TokenRepositories
  * @package App\Repositories\Admin\WeChat
  */
-class TokenRepositories
+class TokenRepository
 {
     private $tokenModel;
 
     public function __construct()
     {
-        $this->tokenModel = new WeChatToken();
+        $this->tokenModel = new TokenStorage();
     }
 
     public function tokenSelect(array $searchWhere, int $perSize): array

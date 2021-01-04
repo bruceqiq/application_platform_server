@@ -23,7 +23,13 @@ class Guzzle
     {
         $client   = $this->guzzleClient->create((array)['base_uri' => $uri]);
         $response = $client->request('get', $uri, $options);
+        return $response->getBody();
+    }
+
+    public function postRequest(string $uri, array $options = [])
+    {
+        $client   = $this->guzzleClient->create((array)['base_uri' => $uri]);
+        $response = $client->request('post', $uri, $options);
         var_dump($response->getStatusCode());
-//        var_dump($response->getBody()->getContents());
     }
 }

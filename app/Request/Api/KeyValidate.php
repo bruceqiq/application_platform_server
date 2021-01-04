@@ -16,7 +16,7 @@ class KeyValidate extends FormRequest
     public function rules(): array
     {
         return [
-            'key' => 'exists:cloud_storage,key',
+            'key' => 'exists:cloud_storage_token,key',
         ];
     }
 

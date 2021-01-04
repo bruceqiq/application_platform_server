@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace App\Model\Admin;
 
-use App\Model\Common\WeChatToken as WeChatTokenModel;
+use App\Model\Common\AppToken as AppTokenModel;
 
 /**
- * 微信
+ * Token
  * Class WeChatToken
  * @package App\Model\Admin
  */
-class WeChatToken extends WeChatTokenModel
+class TokenStorage extends AppTokenModel
 {
 
 }
