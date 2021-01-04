@@ -28,6 +28,7 @@ class TokenController extends BaseController
 
     /**
      * @GetMapping(path="token")
+     * @param TokenKeyValidate $validate
      * @return ResponseInterface
      * @author kert
      */
