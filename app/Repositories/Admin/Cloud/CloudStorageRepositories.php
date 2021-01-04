@@ -46,10 +46,10 @@ class CloudStorageRepositories
         return $result ? true : false;
     }
 
-    public function cloudUpdate(array $requestParams, int $id): bool
+    public function cloudUpdate(array $requestParams, array $updateWhere): bool
     {
         try {
-            $result = $this->cloudModel::query()->where([['id', '=', $requestParams['id']]])->update($requestParams);
+            $result = $this->cloudModel::query()->where($updateWhere)->update($requestParams);
         } catch (\Exception $exception) {
             $result = false;
         }

@@ -13,10 +13,6 @@ use App\Libs\Cloud\Handler\CloudQiNiu;
  */
 class CloudLib
 {
-    public function __construct()
-    {
-    }
-
     /**
      * 创建云存储Token
      * @param int $platformId

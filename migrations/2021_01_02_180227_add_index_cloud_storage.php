@@ -11,7 +11,7 @@ class AddIndexCloudStorage extends Migration
      */
     public function up(): void
     {
-        Schema::table('cloud_storage', function (Blueprint $table) {
+        Schema::table('cloud_storage_token', function (Blueprint $table) {
             $table->unique(['cloud_platform_id', 'app_id', 'bucket'], 'idx_app_buck');
             $table->unique('key', 'idx_key');
         });

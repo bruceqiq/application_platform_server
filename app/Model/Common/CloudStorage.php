@@ -26,7 +26,7 @@ use Carbon\Carbon;
  */
 class CloudStorage extends BaseModel
 {
-    protected $table = 'cloud_storage';
+    protected $table = 'cloud_storage_token';
 
     protected $fillable = [
         'key',

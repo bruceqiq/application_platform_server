@@ -55,12 +55,4 @@ class QiNiuController extends BaseController
             ]);
         }
     }
-
-    /**
-     * @GetMapping(path="show")
-     */
-    public function show()
-    {
-        $this->guzzleLib->getRequest((string)'https://yuanlinhui.yiputouzi.com/admin/common/qn/upload/token', (array)['key' => 'e82f3283ebeb40b3fe2f247be5e8ec61']);
-    }
 }

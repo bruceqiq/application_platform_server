@@ -14,11 +14,11 @@ use App\Repositories\Admin\Cloud\CloudStorageRepositories;
  */
 class CloudStorageService
 {
-    private $cloudRepositories;
+    private $cloudRepository;
 
     public function __construct()
     {
-        $this->cloudRepositories = new CloudStorageRepositories;
+        $this->cloudRepository = new CloudStorageRepositories;
     }
 
     public function cloudSelect(array $requestParams): array
@@ -28,7 +28,7 @@ class CloudStorageService
         if (!empty($requestParams['name'])) {
             array_push($searchWhere, ['name', 'like', '%' . $requestParams['name'] . '%']);
         }
-        return $this->cloudRepositories->cloudSelect((array)$searchWhere, (int)$perSize);
+        return $this->cloudRepository->cloudSelect((array)$searchWhere, (int)$perSize);
     }
 
     public function cloudStore(array $requestParams): bool
@@ -36,7 +36,7 @@ class CloudStorageService
         $info = $this->dataFormatter((array)$requestParams);
         $info = $this->createToken((array)$info);
         if ($info['code']) {
-            if ($this->cloudRepositories->cloudStore((array)$info)) {
+            if ($this->cloudRepository->cloudStore((array)$info)) {
                 return true;
             }
             (Redis::getRedisInstance())->redis->delete($info['key']);
@@ -52,14 +52,14 @@ class CloudStorageService
         if ($info['code']) {
             unset($info['key']);
             unset($info['code']);
-            return $this->cloudRepositories->cloudUpdate((array)$info, (int)$requestParams['id']);
+            return $this->cloudRepository->cloudUpdate((array)$info, (array)[['id', '=', $requestParams['id']]]);
         }
         return false;
     }
 
     public function cloudDelete(array $requestParams): bool
     {
-        return $this->cloudRepositories->cloudDelete((array)[['id', '=', $requestParams['id']]]);
+        return $this->cloudRepository->cloudDelete((array)[['id', '=', $requestParams['id']]]);
     }
 
     private function createToken(array $info): array
