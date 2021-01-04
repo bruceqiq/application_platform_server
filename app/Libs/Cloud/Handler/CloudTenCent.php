@@ -12,7 +12,7 @@ use App\Libs\Cloud\CloudInterface;
  */
 class CloudTenCent implements CloudInterface
 {
-    public function createToken()
+    public function createToken(string $appId, string $appSecret, string $bucket): string
     {
         // TODO: Implement createToken() method.
     }

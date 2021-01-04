@@ -6,6 +6,7 @@ namespace App\Libs\Token\Handler;
 
 use App\Libs\Guzzle\Guzzle;
 use App\Libs\Token\TokenInterface;
+use Hyperf\Di\Annotation\Inject;
 
 /**
  * Token
@@ -15,6 +16,7 @@ use App\Libs\Token\TokenInterface;
 class TokenWeChatPublic implements TokenInterface
 {
     /**
+     * @Inject()
      * @var Guzzle
      */
     protected $guzzle;
