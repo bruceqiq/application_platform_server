@@ -8,9 +8,6 @@ use Hyperf\Validation\Request\FormRequest;
 
 class CloudStorageValidate extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
@@ -19,7 +16,7 @@ class CloudStorageValidate extends FormRequest
     public function rules(): array
     {
         return [
-            'cloud_platform_id' => 'required|integer',
+            'cloud_platform_id' => 'required|integer|exists:cloud_platform,id',
             'app_id'            => 'required',
             'app_secret'        => 'required',
             'name'              => 'required',
@@ -35,6 +32,7 @@ class CloudStorageValidate extends FormRequest
         return [
             'cloud_platform_id.required' => '平台不能为空',
             'cloud_platform_id.integer'  => '平台类型不正确',
+            'cloud_platform_id.exists'   => '平台不存在',
             'app_id.required'            => 'appId不能为空',
             'app_secret.required'        => 'appSecret不能为空',
             'name.required'              => '应用名称不能为空',
