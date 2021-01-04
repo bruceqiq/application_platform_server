@@ -6,7 +6,7 @@ namespace App\Request\Api;
 
 use Hyperf\Validation\Request\FormRequest;
 
-class KeyValidate extends FormRequest
+class TokenKeyValidate extends FormRequest
 {
     public function authorize(): bool
     {
@@ -16,7 +16,7 @@ class KeyValidate extends FormRequest
     public function rules(): array
     {
         return [
-            'key' => 'exists:cloud_storage_token,key',
+            'key' => 'exists:app_token,key',
         ];
     }
 

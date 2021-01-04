@@ -6,7 +6,7 @@ namespace App\Controller\Api\Cloud;
 use App\Controller\BaseController;
 use App\Libs\Cache\Redis;
 use App\Libs\Guzzle\Guzzle;
-use App\Request\Api\KeyValidate;
+use App\Request\Api\CloudKeyValidate;
 use App\Services\Api\Cloud\CloudStorageService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
@@ -29,10 +29,10 @@ class QiNiuController extends BaseController
 
     /**
      * @GetMapping(path="token")
-     * @param KeyValidate $validate
+     * @param CloudKeyValidate $validate
      * @return ResponseInterface
      */
-    public function token(KeyValidate $validate)
+    public function token(CloudKeyValidate $validate)
     {
         $key       = $this->request->input('key', '');
         $cacheInfo = (Redis::getRedisInstance())->redis->get($key);

@@ -6,6 +6,7 @@ namespace App\Controller\Api\Token;
 
 use App\Controller\BaseController;
 use App\Libs\Cache\Redis;
+use App\Request\Api\TokenKeyValidate;
 use App\Services\Api\Token\TokenService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
@@ -30,7 +31,7 @@ class TokenController extends BaseController
      * @return ResponseInterface
      * @author kert
      */
-    public function token()
+    public function token(TokenKeyValidate $validate)
     {
         $key       = $this->request->input('key', '');
         $cacheInfo = (Redis::getRedisInstance())->redis->get($key);
