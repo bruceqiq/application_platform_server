@@ -29,6 +29,10 @@ class TokenWeChatPublic implements TokenInterface
             'appid'      => $appId,
             'secret'     => $appSecret,
         ]);
-        var_dump(json_decode($result, true));
+        if ($result['status']) {
+            return json_decode($result['data'], true)['access_token'];
+        }
+
+        return '';
     }
 }
