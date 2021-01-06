@@ -11,7 +11,7 @@ class CreateWechatPublicToken extends Migration
      */
     public function up(): void
     {
-        Schema::create('wechat_token', function (Blueprint $table) {
+        Schema::create('app_token', function (Blueprint $table) {
             $table->integer('id', true, true);
             $table->integer('cloud_platform_id', false, true)->comment('平台id');
             $table->string('key', 32)->comment('数据key');

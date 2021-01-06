@@ -10,5 +10,5 @@ namespace App\Libs\Cloud;
  */
 Interface CloudInterface
 {
-    public function createToken(string $appId, string $appSecret, string $bucket);
+    public function createToken(string $appId, string $appSecret, string $bucket): string;
 }

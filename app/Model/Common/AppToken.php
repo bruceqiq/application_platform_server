@@ -11,9 +11,9 @@ use App\Model\BaseModel;
  * Class WeChatPublicToken
  * @package App\Model\Common
  */
-class WeChatToken extends BaseModel
+class AppToken extends BaseModel
 {
-    protected $table = 'wechat_token';
+    protected $table = 'app_token';
 
     protected $fillable = [
         'cloud_platform_id',

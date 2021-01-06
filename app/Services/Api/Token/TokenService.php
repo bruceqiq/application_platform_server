@@ -1,36 +1,35 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Services\Api\Cloud;
+namespace App\Services\Api\Token;
 
-use App\Libs\Cloud\CloudLib;
-use App\Repositories\Api\Cloud\CloudStorageRepository;
+use App\Libs\Token\TokenLib;
+use App\Repositories\Api\Token\TokenRepository;
 use Hyperf\Di\Annotation\Inject;
 
 /**
- * 云服务存储
- * Class CloudService
- * @package App\Services\Admin\Cloud
+ * Class TokenService
+ * @package App\Services\Api\Token
  */
-class CloudStorageService
+class TokenService
 {
     /**
      * @Inject()
-     * @var CloudStorageRepository
+     * @var TokenRepository
      */
-    protected $cloudRepositories;
+    private $tokenRepository;
 
     public function findCloud(array $requestParams): array
     {
         $searchWhere = [['key', '=', $requestParams['key']]];
-        $bean        = $this->cloudRepositories->cloudFind((array)$searchWhere);
+        $bean        = $this->tokenRepository->cloudFind((array)$searchWhere);
         if (!empty($bean)) {
-            $createToken         = CloudLib::createToken((int)$bean['cloud_platform_id'], (array)$bean);
+            $createToken         = TokenLib::createToken((int)$bean['cloud_platform_id'], (array)$bean);
             $bean['token']       = $createToken['token'];
             $bean['expire_time'] = $createToken['expire_time'];
             if ($createToken['code']) {
                 // 更新数据库 token
-                $this->cloudRepositories->cloudUpdate(
+                $this->tokenRepository->cloudUpdate(
                     (array)['token' => $createToken['token']],
                     (array)[['key', '=', $requestParams['key']]]);
             }

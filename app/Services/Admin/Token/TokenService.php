@@ -1,42 +1,42 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Services\Admin\Cloud;
+namespace App\Services\Admin\Token;
 
 use App\Libs\Cache\Redis;
-use App\Libs\Cloud\CloudLib;
-use App\Repositories\Admin\Cloud\CloudStorageRepository;
+use App\Libs\Token\TokenLib;
+use App\Repositories\Admin\Token\TokenRepository;
 
 /**
- * 云服务存储
- * Class CloudService
- * @package App\Services\Admin\Cloud
+ * 微信
+ * Class TokenService
+ * @package App\Services\Admin\Token
  */
-class CloudStorageService
+class TokenService
 {
-    private $cloudRepository;
+    private $tokenRepository;
 
     public function __construct()
     {
-        $this->cloudRepository = new CloudStorageRepository;
+        $this->tokenRepository = new TokenRepository();
     }
 
-    public function cloudSelect(array $requestParams): array
+    public function tokenSelect(array $requestParams): array
     {
         $perSize     = $requestParams['size'] ?? 20;
         $searchWhere = [];
         if (!empty($requestParams['name'])) {
             array_push($searchWhere, ['name', 'like', '%' . $requestParams['name'] . '%']);
         }
-        return $this->cloudRepository->cloudSelect((array)$searchWhere, (int)$perSize);
+        return $this->tokenRepository->tokenSelect((array)$searchWhere, (int)$perSize);
     }
 
-    public function cloudStore(array $requestParams): bool
+    public function tokenCreate(array $requestParams): bool
     {
         $info = $this->dataFormatter((array)$requestParams);
         $info = $this->createToken((array)$info);
         if ($info['code']) {
-            if ($this->cloudRepository->cloudStore((array)$info)) {
+            if ($this->tokenRepository->tokenCreate((array)$info)) {
                 return true;
             }
             (Redis::getRedisInstance())->redis->delete($info['key']);
@@ -45,26 +45,26 @@ class CloudStorageService
         return false;
     }
 
-    public function cloudUpdate(array $requestParams): bool
+    public function tokenUpdate(array $requestParams): bool
     {
         $info = $this->dataFormatter((array)$requestParams);
         $info = $this->createToken((array)$info);
         if ($info['code']) {
             unset($info['key']);
             unset($info['code']);
-            return $this->cloudRepository->cloudUpdate((array)$info, (array)[['id', '=', $requestParams['id']]]);
+            return $this->tokenRepository->tokenUpdate((array)$info, (array)[['id', '=', $requestParams['id']]]);
         }
         return false;
     }
 
-    public function cloudDelete(array $requestParams): bool
+    public function tokenDelete(array $requestParams): bool
     {
-        return $this->cloudRepository->cloudDelete((array)[['id', '=', $requestParams['id']]]);
+        return $this->tokenRepository->tokenDelete((array)[['id', '=', $requestParams['id']]]);
     }
 
     private function createToken(array $info): array
     {
-        $createToken         = CloudLib::createToken((int)$info['cloud_platform_id'], (array)$info);
+        $createToken         = TokenLib::createToken((int)$info['cloud_platform_id'], (array)$info);
         $info['code']        = $createToken['code'];
         $info['token']       = $createToken['token'];
         $info['expire_time'] = $createToken['expire_time'];
@@ -80,8 +80,6 @@ class CloudStorageService
             'app_id'            => trim($requestParams['app_id']),
             'app_secret'        => trim($requestParams['app_secret']),
             'name'              => $requestParams['name'],
-            'region'            => trim($requestParams['region']),
-            'bucket'            => trim($requestParams['bucket']),
             'domain'            => trim($requestParams['domain']),
             'remark'            => $requestParams['remark'] ?? '',
             'token'             => '',

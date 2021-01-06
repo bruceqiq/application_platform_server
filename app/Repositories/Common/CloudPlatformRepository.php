@@ -4,20 +4,20 @@ declare(strict_types=1);
 namespace App\Repositories\Common;
 
 use App\Model\Common\CloudPlatform;
+use Hyperf\Di\Annotation\Inject;
 
 /**
  * 云平台
  * Class CloudPlatformRepositories
  * @package App\Repositories\Common
  */
-class CloudPlatformRepositories
+class CloudPlatformRepository
 {
-    private $platformModel;
-
-    public function __construct()
-    {
-        $this->platformModel = new CloudPlatform;
-    }
+    /**
+     * @Inject()
+     * @var CloudPlatform
+     */
+    protected $platformModel;
 
     public function platformSelect(): array
     {

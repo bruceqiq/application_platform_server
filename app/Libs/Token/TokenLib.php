@@ -1,39 +1,35 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Libs\Cloud;
+namespace App\Libs\Token;
 
 use App\Libs\Cache\Redis;
-use App\Libs\Cloud\Handler\CloudQiNiu;
+use App\Libs\Token\Handler\TokenWeChatPublic;
 
 /**
- * 对象存储依赖库
- * Class CloudLib
- * @package App\Libs\Cloud
+ * token
+ * Class TokenLib
+ * @package App\Libs\Token
  */
-class CloudLib
+class TokenLib
 {
     /**
-     * 创建云存储Token
+     * 创建第三方存储Token
      * @param int $platformId
-     * @param array $cloudInfo ['app_id', 'app_secret', 'bucket', 'key', 'cloud_platform_id']
+     * @param array $cloudInfo ['app_id', 'app_secret', 'key', 'cloud_platform_id']
      * @return array ['token', 'expire_time']
      */
     public static function createToken(int $platformId, array $cloudInfo): array
     {
         $dateTime    = date('Y-m-d H:i:s', time() + 7200);
-        $returnArray = [
-            'code'        => 0,
-            'token'       => '',
-            'expire_time' => $dateTime,
-        ];
+        $returnArray = ['code' => 0, 'token' => '', 'expire_time' => $dateTime,];
         switch ($platformId) {
-            case 2:
-                $returnArray['token'] = (new CloudQiNiu())->createToken(
+            case 4:
+                $returnArray['token'] = (new TokenWeChatPublic())->createToken(
                     (string)$cloudInfo['app_id'],
-                    (string)$cloudInfo['app_secret'],
-                    (string)$cloudInfo['bucket']);
+                    (string)$cloudInfo['app_secret']);
                 break;
+            default:
         }
         if (!empty($returnArray['token'])) {
             $cacheInfo = json_encode(['key' => $cloudInfo['key'], 'expire_time' => $dateTime, 'token' => $returnArray['token']]);

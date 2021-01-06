@@ -22,8 +22,26 @@ class Guzzle
     public function getRequest(string $uri, array $options = [])
     {
         $client   = $this->guzzleClient->create((array)['base_uri' => $uri]);
-        $response = $client->request('get', $uri, $options);
-        var_dump($response->getStatusCode());
-//        var_dump($response->getBody()->getContents());
+        $response = $client->get($uri, $options);
+        if ($response->getStatusCode() == 200) {
+            return [
+                'status' => 1,
+                'data'   => $response->getBody()->getContents()
+            ];
+        }
+        return [
+            'status' => 0,
+            'data'   => '',
+        ];
+    }
+
+    public function postRequest(string $uri, array $options = [])
+    {
+        $client   = $this->guzzleClient->create((array)['base_uri' => $uri]);
+        $response = $client->request('post', $uri, $options);
+        if ($response->getStatusCode() == 200) {
+            return $response->getBody()->getContents();
+        }
+        return null;
     }
 }
