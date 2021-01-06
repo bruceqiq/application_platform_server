@@ -17,7 +17,9 @@ class Redis
     {
         $redis = new \Redis();
         $redis->connect(config('redis.default.host'), config('redis.default.port'));
-
+        if (!empty(config('redis.default.auth'))) {
+            $redis->auth(config('redis.default.auth'));
+        }
         $this->redis = $redis;
     }
 
