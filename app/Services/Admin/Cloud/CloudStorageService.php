@@ -76,6 +76,7 @@ class CloudStorageService
     {
         return [
             'cloud_platform_id' => $requestParams['cloud_platform_id'],
+            'cache_time'        => trim($requestParams['cache_time']),
             'key'               => $requestParams['key'] ?? (md5((string)time())),
             'app_id'            => trim($requestParams['app_id']),
             'app_secret'        => trim($requestParams['app_secret']),

@@ -20,7 +20,8 @@ class TokenRepository
 
     public function cloudFind(array $searchWhere): array
     {
-        $bean = $this->tokenModel::query()->where($searchWhere)->first([]);
+        $bean = $this->tokenModel::query()->where($searchWhere)
+            ->first(['id', 'cloud_platform_id', 'key', 'app_id', 'app_secret', 'bucket', 'cache_time']);
 
         return !empty($bean) ? $bean->toArray() : [];
     }

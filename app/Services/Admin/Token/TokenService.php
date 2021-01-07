@@ -83,6 +83,7 @@ class TokenService
             'domain'            => trim($requestParams['domain']),
             'remark'            => $requestParams['remark'] ?? '',
             'token'             => '',
+            'cache_time'        => trim($requestParams['cache_time']),
             'expire_time'       => date('Y-m-d H:i:s'),
             'id'                => $requestParams['id'] ?? 0,
         ];
