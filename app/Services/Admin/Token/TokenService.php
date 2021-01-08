@@ -25,9 +25,13 @@ class TokenService
     {
         $perSize     = $requestParams['size'] ?? 20;
         $searchWhere = [];
+        if (!empty($requestParams['id'])) {
+            array_push($searchWhere, ['id', '=', $requestParams['id']]);
+        }
         if (!empty($requestParams['name'])) {
             array_push($searchWhere, ['name', 'like', '%' . $requestParams['name'] . '%']);
         }
+
         return $this->tokenRepository->tokenSelect((array)$searchWhere, (int)$perSize);
     }
 
@@ -39,7 +43,7 @@ class TokenService
             if ($this->tokenRepository->tokenCreate((array)$info)) {
                 return true;
             }
-            (Redis::getRedisInstance())->redis->delete($info['key']);
+            (Redis::getRedisInstance())->redis->del($info['key']);
             return false;
         }
         return false;
@@ -59,7 +63,12 @@ class TokenService
 
     public function tokenDelete(array $requestParams): bool
     {
-        return $this->tokenRepository->tokenDelete((array)[['id', '=', $requestParams['id']]]);
+        // 是否在删除数据之后，立即删除 token
+        //$key = $this->tokenSelect((array)['id' => $requestParams['id']])['items'][0]['key'];
+        if ($this->tokenRepository->tokenDelete((array)[['id', '=', $requestParams['id']]])) {
+            return true;
+        }
+        return false;
     }
 
     private function createToken(array $info): array

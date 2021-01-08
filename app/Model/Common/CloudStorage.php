@@ -68,6 +68,7 @@ class CloudStorage extends BaseModel
         'cloud_platform_id',
         'created_at',
         'updated_at',
+        'cache_time',
     ];
 
     public function platform()

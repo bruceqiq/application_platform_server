@@ -21,6 +21,7 @@ class TokenRepository
 
     public function tokenSelect(array $searchWhere, int $perSize): array
     {
+        var_dump($searchWhere, $perSize);
         $items = $this->tokenModel::query()
             ->with(['platform:id,name'])
             ->select($this->tokenModel->searchFields)
@@ -40,6 +41,7 @@ class TokenRepository
         try {
             $result = $this->tokenModel::query()->create($requestParams);
         } catch (\Exception $exception) {
+            var_dump($exception->getMessage());
             $result = false;
         }
 
@@ -51,6 +53,7 @@ class TokenRepository
         try {
             $result = $this->tokenModel::query()->where($updateWhere)->update($requestParams);
         } catch (\Exception $exception) {
+            var_dump($exception->getMessage());
             $result = false;
         }
 

@@ -37,7 +37,7 @@ class CloudLib
         }
         if (!empty($returnArray['token'])) {
             $cacheInfo = json_encode(['key' => $cloudInfo['key'], 'expire_time' => $dateTime, 'token' => $returnArray['token']]);
-            if ((Redis::getRedisInstance())->redis->set($cloudInfo['key'], $cacheInfo, $cloudInfo['cache_time'])) {
+            if ((Redis::getRedisInstance())->redis->set($cloudInfo['key'], $cacheInfo, (int)$cloudInfo['cache_time'])) {
                 $returnArray['code'] = 1;
             }
         }
