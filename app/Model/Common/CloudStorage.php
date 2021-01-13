@@ -21,6 +21,7 @@ use Carbon\Carbon;
  * @property string $remark
  * @property string $deleted_at
  * @property Carbon $created_at
+ * @property int $status
  * @property Carbon $updated_at
  * @property Carbon $expire_time
  */
@@ -40,6 +41,7 @@ class CloudStorage extends BaseModel
         'remark',
         'expire_time',
         'cloud_platform_id',
+        'status',
     ];
 
     protected $casts = [
@@ -47,10 +49,15 @@ class CloudStorage extends BaseModel
         'created_at'  => 'datetime',
         'updated_at'  => 'datetime',
         'expire_time' => 'datetime',
+        'status'      => 'integer',
     ];
 
     protected $hidden = [
         'deleted_at',
+    ];
+
+    protected $appends = [
+        'status_text',
     ];
 
     public $searchFields = [
@@ -69,10 +76,16 @@ class CloudStorage extends BaseModel
         'created_at',
         'updated_at',
         'cache_time',
+        'status',
     ];
 
     public function platform()
     {
         return $this->belongsTo(CloudPlatform::class, 'cloud_platform_id', 'id');
+    }
+
+    public function getStatusTextAttribute($key)
+    {
+        return $this->attributes['status'] == 1 ? '启用' : '禁用';
     }
 }
