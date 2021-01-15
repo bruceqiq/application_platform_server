@@ -8,10 +8,8 @@ use App\Request\Admin\CloudStorageValidate;
 use App\Services\Admin\Cloud\CloudStorageService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
-use Hyperf\HttpServer\Annotation\DeleteMapping;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
-use Hyperf\HttpServer\Annotation\PutMapping;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -54,7 +52,7 @@ class CloudStorageController extends BaseController
     }
 
     /**
-     * @PutMapping(path="update")
+     * @PostMapping(path="update")
      * @param CloudStorageValidate $validate
      * @return ResponseInterface
      * @author kert
@@ -67,7 +65,7 @@ class CloudStorageController extends BaseController
     }
 
     /**
-     * @DeleteMapping(path="del")
+     * @PostMapping(path="del")
      * @return ResponseInterface
      * @author kert
      */
