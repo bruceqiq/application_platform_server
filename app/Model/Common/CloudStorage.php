@@ -58,6 +58,8 @@ class CloudStorage extends BaseModel
 
     protected $appends = [
         'status_text',
+        'expire_text',
+        'expire_status',
     ];
 
     public $searchFields = [
@@ -87,5 +89,20 @@ class CloudStorage extends BaseModel
     public function getStatusTextAttribute($key)
     {
         return $this->attributes['status'] == 1 ? '启用' : '禁用';
+    }
+
+    public function getExpireTextAttribute($key)
+    {
+        return $this->status() ? '可用' : '失效';
+    }
+
+    public function getExpireStatusAttribute($key)
+    {
+        return $this->status() ? 1 : 2;
+    }
+
+    private function status(): bool
+    {
+        return strtotime($this->attributes['expire_time']) > time();
     }
 }

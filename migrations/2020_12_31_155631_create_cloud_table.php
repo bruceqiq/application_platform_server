@@ -15,11 +15,11 @@ class CreateCloudTable extends Migration
             $table->string('app_id', 255)->comment('平台key');
             $table->string('app_secret', 255)->comment('平台secret');
             $table->string('name', 32)->comment('平台名称');
-            $table->string('region', 32)->comment('region名称');
+            $table->string('region', 32)->nullable()->comment('region名称');
             $table->string('bucket', 32)->comment('bucket名称');
             $table->string('domain', 100)->comment('请求域名');
             $table->string('token', 255)->comment('token');
-            $table->tinyInteger('status', false, true)->default(2)->comment('应用状态1禁用2启用');
+            $table->tinyInteger('status', false, true)->default(2)->comment('应用状态1启用2禁用');
             $table->timestamp('expire_time', 0)->comment('token 过期时间');
             $table->integer('cache_time', false, true)->default(7200)->comment('token缓存有效期');
             $table->text('remark')->nullable()->comment('备注信息');

@@ -44,8 +44,8 @@ class QiNiuController extends BaseController
             $bean = $this->cloudService->findCloud((array)['key' => $key]);
             return $this->response->success((array)[
                 'key'         => $key,
-                'token'       => $bean['token'],
-                'expire_time' => $bean['expire_time'],
+                'token'       => $bean['token'] ?? '该key已被禁用或者被删除',
+                'expire_time' => $bean['expire_time'] ?? '该key已被禁用或者被删除',
             ]);
         }
     }

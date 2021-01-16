@@ -31,6 +31,7 @@ class TokenLib
                 break;
             default:
         }
+        var_dump('token', $returnArray);
         if (!empty($returnArray['token'])) {
             $cacheInfo = json_encode(['key' => $cloudInfo['key'], 'expire_time' => $dateTime, 'token' => $returnArray['token']]);
             (Redis::getRedisInstance())->redis->set($cloudInfo['key'], $cacheInfo);

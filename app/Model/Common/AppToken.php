@@ -25,6 +25,18 @@ class AppToken extends BaseModel
         'token',
         'expire_time',
         'remark',
+        'status',
+        'cache_time'
+    ];
+
+    protected $hidden = [
+        'deleted_at',
+    ];
+
+    protected $appends = [
+        'status_text',
+        'expire_text',
+        'expire_status',
     ];
 
     public $searchFields = [
@@ -40,10 +52,32 @@ class AppToken extends BaseModel
         'cloud_platform_id',
         'created_at',
         'updated_at',
+        'status',
+        'cache_time',
     ];
 
     public function platform()
     {
         return $this->belongsTo(CloudPlatform::class, 'cloud_platform_id', 'id');
+    }
+
+    public function getStatusTextAttribute($key)
+    {
+        return $this->attributes['status'] == 1 ? '启用' : '禁用';
+    }
+
+    public function getExpireTextAttribute($key)
+    {
+        return $this->status() ? '可用' : '失效';
+    }
+
+    public function getExpireStatusAttribute($key)
+    {
+        return $this->status() ? 1 : 2;
+    }
+
+    private function status(): bool
+    {
+        return strtotime($this->attributes['expire_time']) > time();
     }
 }

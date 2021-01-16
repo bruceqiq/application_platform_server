@@ -21,7 +21,7 @@ class TokenService
 
     public function findCloud(array $requestParams): array
     {
-        $searchWhere = [['key', '=', $requestParams['key']]];
+        $searchWhere = [['key', '=', $requestParams['key'] ?? 0], ['status', '=', 1]];
         $bean        = $this->tokenRepository->cloudFind((array)$searchWhere);
         if (!empty($bean)) {
             $createToken         = TokenLib::createToken((int)$bean['cloud_platform_id'], (array)$bean);

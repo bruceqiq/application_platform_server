@@ -49,7 +49,9 @@ class CloudStorageService
     {
         $info = $this->dataFormatter((array)$requestParams);
         $info = $this->createToken((array)$info);
+        var_dump($info);
         if ($info['code']) {
+            echo '更新';
             unset($info['key']);
             unset($info['code']);
             return $this->cloudRepository->cloudUpdate((array)$info, (array)[['id', '=', $requestParams['id']]]);
@@ -59,7 +61,17 @@ class CloudStorageService
 
     public function cloudDelete(array $requestParams): bool
     {
-        return $this->cloudRepository->cloudDelete((array)[['id', '=', $requestParams['id']]]);
+        $idsArray = explode(',', (string)$requestParams['ids']);
+        return $this->cloudRepository->cloudDelete((array)$idsArray);
+    }
+
+    public function tokenStatus(array $requestParams): bool
+    {
+        $idsArray = explode(',', (string)$requestParams['ids']);
+        if ($this->cloudRepository->tokenStatus((array)$idsArray, (int)$requestParams['status'] ?? 2)) {
+            return true;
+        }
+        return false;
     }
 
     private function createToken(array $info): array
@@ -81,13 +93,14 @@ class CloudStorageService
             'app_id'            => trim($requestParams['app_id']),
             'app_secret'        => trim($requestParams['app_secret']),
             'name'              => $requestParams['name'],
-            'region'            => trim($requestParams['region']),
+            'region'            => $requestParams['region'] ?? '',
             'bucket'            => trim($requestParams['bucket']),
             'domain'            => trim($requestParams['domain']),
             'remark'            => $requestParams['remark'] ?? '',
             'token'             => '',
             'expire_time'       => date('Y-m-d H:i:s'),
             'id'                => $requestParams['id'] ?? 0,
+            'status'            => $requestParams['status'] ?? 2,
         ];
     }
 }

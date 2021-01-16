@@ -9,10 +9,8 @@ use App\Request\Admin\AppTokenValidate;
 use App\Services\Admin\Token\TokenService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
-use Hyperf\HttpServer\Annotation\DeleteMapping;
 use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\PostMapping;
-use Hyperf\HttpServer\Annotation\PutMapping;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -49,13 +47,14 @@ class TokenController extends BaseController
      */
     public function store(AppTokenValidate $validate)
     {
+        echo 1;
         $createResult = $this->tokenService->tokenCreate((array)$this->request->all());
 
         return $createResult ? $this->response->success() : $this->response->error();
     }
 
     /**
-     * @PutMapping(path="update")
+     * @PostMapping(path="update")
      * @param AppTokenValidate $validate
      * @return ResponseInterface
      * @author kert
@@ -68,7 +67,7 @@ class TokenController extends BaseController
     }
 
     /**
-     * @DeleteMapping(path="del")
+     * @PostMapping(path="del")
      * @return ResponseInterface
      * @author kert
      */
@@ -77,5 +76,17 @@ class TokenController extends BaseController
         $deleteResult = $this->tokenService->tokenDelete((array)$this->request->all());
 
         return $deleteResult ? $this->response->success() : $this->response->error();
+    }
+
+    /**
+     * @PostMapping(path="status")
+     * @return ResponseInterface
+     * @author ert
+     */
+    public function status()
+    {
+        $statusResult = $this->tokenService->tokenStatus($this->request->all());
+
+        return $statusResult ? $this->response->success() : $this->response->error();
     }
 }

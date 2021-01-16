@@ -75,4 +75,16 @@ class CloudStorageController extends BaseController
 
         return $deleteResult ? $this->response->success() : $this->response->error();
     }
+
+    /**
+     * @PostMapping(path="status")
+     * @return ResponseInterface
+     * @author ert
+     */
+    public function status()
+    {
+        $statusResult = $this->cloudStoreService->tokenStatus($this->request->all());
+
+        return $statusResult ? $this->response->success() : $this->response->error();
+    }
 }

@@ -57,9 +57,18 @@ class CloudStorageRepository
         return $result ? true : false;
     }
 
-    public function cloudDelete(array $deleteWhere): bool
+    public function cloudDelete(array $deleteIdArray): bool
     {
-        $result = $this->cloudModel::query()->where($deleteWhere)->delete();
+        $result = $this->cloudModel::query()->whereIn('id', $deleteIdArray)->delete();
+
+        return $result ? true : false;
+    }
+
+    public function tokenStatus(array $updateWhere, int $status): bool
+    {
+        $result = $this->cloudModel::query()->whereIn('id', $updateWhere)->update([
+            'status' => $status,
+        ]);
 
         return $result ? true : false;
     }

@@ -16,7 +16,7 @@ class TokenKeyValidate extends FormRequest
     public function rules(): array
     {
         return [
-            'key' => 'exists:app_token,key',
+            'key' => 'exists:token,key',
         ];
     }
 

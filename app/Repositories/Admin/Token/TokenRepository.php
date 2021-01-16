@@ -40,6 +40,7 @@ class TokenRepository
     {
         try {
             $result = $this->tokenModel::query()->create($requestParams);
+            var_dump('创建结果', $result);
         } catch (\Exception $exception) {
             var_dump($exception->getMessage());
             $result = false;
@@ -60,9 +61,18 @@ class TokenRepository
         return $result ? true : false;
     }
 
-    public function tokenDelete(array $deleteWhere): bool
+    public function tokenDelete(array $deleteIdArray): bool
     {
-        $result = $this->tokenModel::query()->where($deleteWhere)->delete();
+        $result = $this->tokenModel::query()->whereIn('id', $deleteIdArray)->delete();
+
+        return $result ? true : false;
+    }
+
+    public function tokenStatus(array $updateWhere, int $status): bool
+    {
+        $result = $this->tokenModel::query()->whereIn('id', $updateWhere)->update([
+            'status' => $status,
+        ]);
 
         return $result ? true : false;
     }

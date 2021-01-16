@@ -43,6 +43,7 @@ class TokenService
             if ($this->tokenRepository->tokenCreate((array)$info)) {
                 return true;
             }
+            echo __CLASS__ . "||" . __METHOD__;
             (Redis::getRedisInstance())->redis->del($info['key']);
             return false;
         }
@@ -53,6 +54,7 @@ class TokenService
     {
         $info = $this->dataFormatter((array)$requestParams);
         $info = $this->createToken((array)$info);
+        var_dump('info', $info);
         if ($info['code']) {
             unset($info['key']);
             unset($info['code']);
@@ -65,7 +67,17 @@ class TokenService
     {
         // 是否在删除数据之后，立即删除 token
         //$key = $this->tokenSelect((array)['id' => $requestParams['id']])['items'][0]['key'];
-        if ($this->tokenRepository->tokenDelete((array)[['id', '=', $requestParams['id']]])) {
+        $idsArray = explode(',', (string)$requestParams['ids']);
+        if ($this->tokenRepository->tokenDelete((array)$idsArray)) {
+            return true;
+        }
+        return false;
+    }
+
+    public function tokenStatus(array $requestParams): bool
+    {
+        $idsArray = explode(',', (string)$requestParams['ids']);
+        if ($this->tokenRepository->tokenStatus((array)$idsArray, (int)$requestParams['status'] ?? 2)) {
             return true;
         }
         return false;
@@ -92,9 +104,10 @@ class TokenService
             'domain'            => trim($requestParams['domain']),
             'remark'            => $requestParams['remark'] ?? '',
             'token'             => '',
-            'cache_time'        => trim($requestParams['cache_time']),
+            'cache_time'        => $requestParams['cache_time'] ?? 7200,
             'expire_time'       => date('Y-m-d H:i:s'),
             'id'                => $requestParams['id'] ?? 0,
+            'status'            => $requestParams['status'] ?? 2,
         ];
     }
 }
