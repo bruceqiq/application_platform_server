@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Repositories\Admin\Cloud;
 
 use App\Model\Admin\CloudStorage;
+use App\Model\Db\CommonDb;
 
 /**
  * 云服务存储
@@ -33,6 +34,11 @@ class CloudStorageRepository
             'size'  => $perSize,
             'total' => $items->total(),
         ];
+    }
+
+    public function tokenSelectByWhere(array $searchWhere, array $searchFields = ['*']): array
+    {
+        return CommonDb::selectByWhere((string)$this->cloudModel->getTable(), (array)$searchWhere, (array)$searchFields);
     }
 
     public function cloudStore(array $requestParams): bool

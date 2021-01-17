@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Repositories\Admin\Token;
 
 use App\Model\Admin\TokenStorage;
+use App\Model\Db\CommonDb;
 
 /**
  * 微信
@@ -34,6 +35,11 @@ class TokenRepository
             'size'  => $perSize,
             'total' => $items->total(),
         ];
+    }
+
+    public function tokenSelectByWhere(array $searchWhere, array $searchFields = ['*']): array
+    {
+        return CommonDb::selectByWhere((string)$this->tokenModel->getTable(), (array)$searchWhere, (array)$searchFields);
     }
 
     public function tokenCreate(array $requestParams): bool

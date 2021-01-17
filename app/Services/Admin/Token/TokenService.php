@@ -6,6 +6,7 @@ namespace App\Services\Admin\Token;
 use App\Libs\Cache\Redis;
 use App\Libs\Token\TokenLib;
 use App\Repositories\Admin\Token\TokenRepository;
+use App\Services\App\CacheService;
 
 /**
  * 微信
@@ -65,11 +66,9 @@ class TokenService
 
     public function tokenDelete(array $requestParams): bool
     {
-        // 是否在删除数据之后，立即删除 token
-        //$key = $this->tokenSelect((array)['id' => $requestParams['id']])['items'][0]['key'];
         $idsArray = explode(',', (string)$requestParams['ids']);
         if ($this->tokenRepository->tokenDelete((array)$idsArray)) {
-            return true;
+            return $this->deleteToken((array)$idsArray);
         }
         return false;
     }
@@ -77,10 +76,33 @@ class TokenService
     public function tokenStatus(array $requestParams): bool
     {
         $idsArray = explode(',', (string)$requestParams['ids']);
-        if ($this->tokenRepository->tokenStatus((array)$idsArray, (int)$requestParams['status'] ?? 2)) {
+        $status   = $requestParams['status'] ?? 2;
+        if ($this->tokenRepository->tokenStatus((array)$idsArray, (int)$status)) {
+            if ($status == 2) {
+                return $this->deleteToken((array)$idsArray);
+            }
             return true;
         }
         return false;
+    }
+
+    private function deleteToken(array $idArray): bool
+    {
+        // 读取缓存配置信息
+        $tokenConfig = config('app.token_delete');
+        if ($tokenConfig) {
+            $searchWhere = [];
+            foreach ($idArray as $value) {
+                array_push($searchWhere, ['id', '=', $value]);
+            }
+            $items = $this->tokenRepository->tokenSelectByWhere((array)$searchWhere, (array)['key']);
+            if (!empty($items)) {
+                $keyArray = array_column($items, 'key');
+                return CacheService::deleteRedisCacheByWhere((array)$keyArray);
+            }
+            return true;
+        }
+        return true;
     }
 
     private function createToken(array $info): array

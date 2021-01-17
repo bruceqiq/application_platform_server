@@ -6,6 +6,7 @@ namespace App\Services\Admin\Cloud;
 use App\Libs\Cache\Redis;
 use App\Libs\Cloud\CloudLib;
 use App\Repositories\Admin\Cloud\CloudStorageRepository;
+use App\Services\App\CacheService;
 
 /**
  * 云服务存储
@@ -49,9 +50,7 @@ class CloudStorageService
     {
         $info = $this->dataFormatter((array)$requestParams);
         $info = $this->createToken((array)$info);
-        var_dump($info);
         if ($info['code']) {
-            echo '更新';
             unset($info['key']);
             unset($info['code']);
             return $this->cloudRepository->cloudUpdate((array)$info, (array)[['id', '=', $requestParams['id']]]);
@@ -62,16 +61,42 @@ class CloudStorageService
     public function cloudDelete(array $requestParams): bool
     {
         $idsArray = explode(',', (string)$requestParams['ids']);
-        return $this->cloudRepository->cloudDelete((array)$idsArray);
+        if ($this->cloudRepository->cloudDelete((array)$idsArray)) {
+            return $this->deleteToken((array)$idsArray);
+        }
+        return false;
     }
 
     public function tokenStatus(array $requestParams): bool
     {
         $idsArray = explode(',', (string)$requestParams['ids']);
-        if ($this->cloudRepository->tokenStatus((array)$idsArray, (int)$requestParams['status'] ?? 2)) {
+        $status   = $requestParams['status'] ?? 2;
+        if ($this->cloudRepository->tokenStatus((array)$idsArray, (int)$status)) {
+            if ($status == 2) {
+                return $this->deleteToken((array)$idsArray);
+            }
             return true;
         }
         return false;
+    }
+
+    private function deleteToken(array $idArray): bool
+    {
+        // 读取缓存配置信息
+        $tokenConfig = config('app.token_delete');
+        if ($tokenConfig) {
+            $searchWhere = [];
+            foreach ($idArray as $value) {
+                array_push($searchWhere, ['id', '=', $value]);
+            }
+            $items = $this->cloudRepository->tokenSelectByWhere((array)$searchWhere, (array)['key']);
+            if (!empty($items)) {
+                $keyArray = array_column($items, 'key');
+                return CacheService::deleteRedisCacheByWhere((array)$keyArray);
+            }
+            return true;
+        }
+        return true;
     }
 
     private function createToken(array $info): array

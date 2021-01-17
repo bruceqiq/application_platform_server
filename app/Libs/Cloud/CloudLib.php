@@ -35,10 +35,7 @@ class CloudLib
                     (string)$cloudInfo['bucket']);
                 break;
         }
-        var_dump($cloudInfo);
-        var_dump('新token', $returnArray['token']);
         if (!empty($returnArray['token'])) {
-            echo __CLASS__ . '||' . __METHOD__;
             $cacheInfo = json_encode(['key' => $cloudInfo['key'], 'expire_time' => $dateTime, 'token' => $returnArray['token']]);
             if ((Redis::getRedisInstance())->redis->set($cloudInfo['key'], $cacheInfo, (int)$cloudInfo['cache_time'])) {
                 $returnArray['code'] = 1;
