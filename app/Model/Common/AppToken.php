@@ -78,6 +78,9 @@ class AppToken extends BaseModel
 
     private function status(): bool
     {
-        return strtotime($this->attributes['expire_time']) > time();
+        if (!empty($this->attributes['expire_time'])) {
+            return strtotime($this->attributes['expire_time']) > time();
+        }
+        return false;
     }
 }
