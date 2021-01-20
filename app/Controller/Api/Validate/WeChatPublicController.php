@@ -28,7 +28,7 @@ class WeChatPublicController extends BaseController
         $token  = 'weixin';
         $tmpArr = array($token, $timestamp, $nonce);
         sort($tmpArr, SORT_STRING);
-        $tmpStr = implode($tmpArr);
+        $tmpStr = implode(',', $tmpArr);
         $tmpStr = sha1($tmpStr);
 
         return $tmpStr == $signature ? true : false;

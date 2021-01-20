@@ -5,7 +5,6 @@ namespace App\Controller\Api\Cloud;
 
 use App\Controller\BaseController;
 use App\Libs\Cache\Redis;
-use App\Libs\Guzzle\Guzzle;
 use App\Request\Api\CloudKeyValidate;
 use App\Services\Api\Cloud\CloudStorageService;
 use Hyperf\Di\Annotation\Inject;

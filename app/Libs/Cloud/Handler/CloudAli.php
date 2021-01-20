@@ -14,6 +14,7 @@ class CloudAli implements CloudInterface
 {
     public function createToken(string $appId, string $appSecret, string $bucket): string
     {
+        return $appId;
         // TODO: Implement createToken() method.
     }
 }
