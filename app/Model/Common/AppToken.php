@@ -25,6 +25,18 @@ class AppToken extends BaseModel
         'token',
         'expire_time',
         'remark',
+        'status',
+        'cache_time'
+    ];
+
+    protected $hidden = [
+        'deleted_at',
+    ];
+
+    protected $appends = [
+        'status_text',
+        'expire_text',
+        'expire_status',
     ];
 
     public $searchFields = [
@@ -40,6 +52,8 @@ class AppToken extends BaseModel
         'cloud_platform_id',
         'created_at',
         'updated_at',
+        'status',
+        'cache_time',
     ];
 
     public function platform()
