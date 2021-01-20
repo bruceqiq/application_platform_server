@@ -13,7 +13,7 @@ use App\Model\BaseModel;
  */
 class AppToken extends BaseModel
 {
-    protected $table = 'app_token';
+    protected $table = 'token';
 
     protected $fillable = [
         'cloud_platform_id',

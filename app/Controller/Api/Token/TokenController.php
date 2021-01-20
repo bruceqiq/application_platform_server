@@ -27,7 +27,7 @@ class TokenController extends BaseController
     protected $tokenService;
 
     /**
-     * @GetMapping(path="get")
+     * @GetMapping(path="token")
      * @param TokenKeyValidate $validate
      * @return ResponseInterface
      * @author kert

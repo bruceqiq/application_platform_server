@@ -5,6 +5,7 @@ namespace App\Repositories\Admin\Token;
 
 use App\Model\Admin\TokenStorage;
 use App\Model\Db\CommonDb;
+use Hyperf\Di\Annotation\Inject;
 
 /**
  * 微信
@@ -13,16 +14,14 @@ use App\Model\Db\CommonDb;
  */
 class TokenRepository
 {
+    /**
+     * @Inject()
+     * @var TokenStorage
+     */
     private $tokenModel;
-
-    public function __construct()
-    {
-        $this->tokenModel = new TokenStorage();
-    }
 
     public function tokenSelect(array $searchWhere, int $perSize): array
     {
-        var_dump($searchWhere, $perSize);
         $items = $this->tokenModel::query()
             ->with(['platform:id,name'])
             ->select($this->tokenModel->searchFields)
