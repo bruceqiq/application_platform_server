@@ -26,9 +26,9 @@ class TokenRepository
         return !empty($bean) ? $bean->toArray() : [];
     }
 
-    public function cloudUpdate(array $info, array $updateWhere): bool
+    public function cloudUpdate(array $updateInfo, array $updateWhere): bool
     {
-        $result = $this->tokenModel::query()->where($updateWhere)->update($info);
+        $result = $this->tokenModel::query()->where($updateWhere)->update($updateInfo);
 
         return $result ? true : false;
     }

@@ -43,11 +43,19 @@ class TokenController extends BaseController
         } else {
             // 重新获取 token
             $bean = $this->tokenService->findCloud((array)['key' => $key]);
-            return $this->response->success((array)[
-                'key'         => $key,
-                'token'       => $bean['token'] ?? '该key已被禁用或者被删除',
-                'expire_time' => $bean['expire_time'] ?? '该key已被禁用或者被删除',
-            ]);
+            if (!empty($bean)) {
+                return $this->response->success((array)[
+                    'key'         => $key,
+                    'token'       => $bean['token'],
+                    'expire_time' => $bean['expire_time'],
+                ]);
+            } else {
+                return $this->response->error((array)[
+                    'key'         => $key,
+                    'token'       => '该key已被禁用或者被删除',
+                    'expire_time' => '该key已被禁用或者被删除',
+                ]);
+            }
         }
     }
 }
