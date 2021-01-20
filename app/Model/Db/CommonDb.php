@@ -29,17 +29,15 @@ class CommonDb
         }
         $searchFieldStr = substr($searchFieldStr, 0, strlen($searchFieldStr) - 1);
 
-        // TODO 优化查询条件
         $where = '';
         foreach ($searchWhere as $value) {
-            $where .= " `$value[0]` = $value[2] and ";
+            $where .= " `$value[0]` $value[1] $value[2] and ";
         }
         $where .= ' 1 = 1 ';
 
         $tableName = config('databases.default.prefix') . $tableName;
 
-        $sql = "select {$searchFieldStr} from {$tableName} where {$where}";
-        var_dump($sql);
+        $sql   = "select {$searchFieldStr} from {$tableName} where {$where}";
         $items = Db::select("$sql");
 
         $resultArray = [];
@@ -48,7 +46,6 @@ class CommonDb
                 $resultArray[$key][$val] = $value->$val;
             }
         }
-        var_dump($resultArray);
         return $resultArray;
     }
 }

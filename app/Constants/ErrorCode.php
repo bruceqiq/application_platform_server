@@ -22,6 +22,11 @@ class ErrorCode extends AbstractConstants
     const REQUEST_ERROR = 1001;
 
     /**
+     * @Message("路由不存在")
+     */
+    const ROUTE_ERROR = 10002;
+
+    /**
      * @Message("请先进行登录")
      */
     const REQUEST_INVALID = 1005;

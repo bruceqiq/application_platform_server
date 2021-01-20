@@ -12,9 +12,12 @@ declare(strict_types=1);
 
 namespace App\Exception\Handler;
 
+use App\Constants\ErrorCode;
+use App\Constants\HttpCode;
+use App\Functions\HttpDataResponse;
 use Hyperf\Contract\StdoutLoggerInterface;
+use Hyperf\Di\Annotation\Inject;
 use Hyperf\ExceptionHandler\ExceptionHandler;
-use Hyperf\HttpMessage\Stream\SwooleStream;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
@@ -25,6 +28,12 @@ class AppExceptionHandler extends ExceptionHandler
      */
     protected $logger;
 
+    /**
+     * @Inject()
+     * @var HttpDataResponse
+     */
+    protected $httpResponse;
+
     public function __construct(StdoutLoggerInterface $logger)
     {
         $this->logger = $logger;
@@ -34,7 +43,8 @@ class AppExceptionHandler extends ExceptionHandler
     {
         $this->logger->error(sprintf('%s[%s] in %s', $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
         $this->logger->error($throwable->getTraceAsString());
-        return $response->withHeader('Server', 'Hyperf')->withStatus(500)->withBody(new SwooleStream('Internal Server Error.'));
+
+        return $this->httpResponse->response((int)ErrorCode::REQUEST_ERROR, (string)ErrorCode::getMessage(ErrorCode::REQUEST_ERROR), (array)[], (int)HttpCode::SERVER_ERROR);
     }
 
     public function isValid(Throwable $throwable): bool

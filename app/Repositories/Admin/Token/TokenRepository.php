@@ -45,9 +45,7 @@ class TokenRepository
     {
         try {
             $result = $this->tokenModel::query()->create($requestParams);
-            var_dump('创建结果', $result);
         } catch (\Exception $exception) {
-            var_dump($exception->getMessage());
             $result = false;
         }
 
@@ -59,7 +57,6 @@ class TokenRepository
         try {
             $result = $this->tokenModel::query()->where($updateWhere)->update($requestParams);
         } catch (\Exception $exception) {
-            var_dump($exception->getMessage());
             $result = false;
         }
 

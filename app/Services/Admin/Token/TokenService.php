@@ -7,6 +7,7 @@ use App\Libs\Cache\Redis;
 use App\Libs\Token\TokenLib;
 use App\Repositories\Admin\Token\TokenRepository;
 use App\Services\App\CacheService;
+use Hyperf\Di\Annotation\Inject;
 
 
 /**
@@ -16,12 +17,11 @@ use App\Services\App\CacheService;
  */
 class TokenService
 {
+    /**
+     * @Inject()
+     * @var TokenRepository
+     */
     private $tokenRepository;
-
-    public function __construct()
-    {
-        $this->tokenRepository = new TokenRepository();
-    }
 
     public function tokenSelect(array $requestParams): array
     {
@@ -33,8 +33,6 @@ class TokenService
         if (!empty($requestParams['name'])) {
             array_push($searchWhere, ['name', 'like', '%' . $requestParams['name'] . '%']);
         }
-
-
         return $this->tokenRepository->tokenSelect((array)$searchWhere, (int)$perSize);
     }
 
@@ -46,9 +44,7 @@ class TokenService
             if ($this->tokenRepository->tokenCreate((array)$info)) {
                 return true;
             }
-            echo __CLASS__ . "||" . __METHOD__;
             (Redis::getRedisInstance())->redis->del($info['key']);
-
             return false;
         }
         return false;
@@ -77,6 +73,12 @@ class TokenService
         return false;
     }
 
+    /**
+     * 设置上下架状态
+     * @param array $requestParams
+     * @return bool
+     * @author kert
+     */
     public function tokenStatus(array $requestParams): bool
     {
         $idsArray = explode(',', (string)$requestParams['ids']);
@@ -90,6 +92,12 @@ class TokenService
         return false;
     }
 
+    /**
+     * 根据配置删除token
+     * @param array $idArray
+     * @return bool
+     * @author kert
+     */
     private function deleteToken(array $idArray): bool
     {
         // 读取缓存配置信息
@@ -109,6 +117,12 @@ class TokenService
         return true;
     }
 
+    /**
+     * 根据提交数据创建token
+     * @param array $info
+     * @return array
+     * @author kert
+     */
     private function createToken(array $info): array
     {
         $createToken         = TokenLib::createToken((int)$info['cloud_platform_id'], (array)$info);
@@ -119,6 +133,12 @@ class TokenService
         return $info;
     }
 
+    /**
+     * 格式化提交表单数据
+     * @param array $requestParams
+     * @return array
+     * @author kert
+     */
     private function dataFormatter(array $requestParams): array
     {
         return [

@@ -67,6 +67,12 @@ class CloudStorageService
         return false;
     }
 
+    /**
+     * 上下架处理
+     * @param array $requestParams
+     * @return bool
+     * @author kert
+     */
     public function tokenStatus(array $requestParams): bool
     {
         $idsArray = explode(',', (string)$requestParams['ids']);
@@ -80,6 +86,12 @@ class CloudStorageService
         return false;
     }
 
+    /**
+     * 根据配置删除token
+     * @param array $idArray
+     * @return bool
+     * @author kert
+     */
     private function deleteToken(array $idArray): bool
     {
         // 读取缓存配置信息
@@ -99,6 +111,12 @@ class CloudStorageService
         return true;
     }
 
+    /**
+     * 根据提交数据创建token
+     * @param array $info
+     * @return array
+     * @author kert
+     */
     private function createToken(array $info): array
     {
         $createToken         = CloudLib::createToken((int)$info['cloud_platform_id'], (array)$info);
@@ -109,6 +127,12 @@ class CloudStorageService
         return $info;
     }
 
+    /**
+     * 格式化提交表单数据
+     * @param array $requestParams
+     * @return array
+     * @author kert
+     */
     private function dataFormatter(array $requestParams): array
     {
         return [

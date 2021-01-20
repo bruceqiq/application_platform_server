@@ -11,11 +11,15 @@ use App\Libs\Cache\Redis;
  */
 class CacheService
 {
+    /**
+     * 删除redis指定内容
+     * @param array $cacheKeysArray
+     * @return bool
+     * @author kert
+     */
     public static function deleteRedisCacheByWhere(array $cacheKeysArray): bool
     {
-        var_dump('删除key', $cacheKeysArray);
         $numbers = (Redis::getRedisInstance())->redis->del($cacheKeysArray);
-        var_dump('删除token数量', $numbers);
         return $numbers ? true : false;
     }
 }

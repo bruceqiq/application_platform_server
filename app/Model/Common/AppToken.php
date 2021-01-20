@@ -47,7 +47,6 @@ class AppToken extends BaseModel
         return $this->belongsTo(CloudPlatform::class, 'cloud_platform_id', 'id');
     }
 
-
     public function getStatusTextAttribute($key)
     {
         return $this->attributes['status'] == 1 ? '启用' : '禁用';

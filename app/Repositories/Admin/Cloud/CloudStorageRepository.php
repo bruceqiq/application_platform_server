@@ -5,6 +5,7 @@ namespace App\Repositories\Admin\Cloud;
 
 use App\Model\Admin\CloudStorage;
 use App\Model\Db\CommonDb;
+use Hyperf\Di\Annotation\Inject;
 
 /**
  * 云服务存储
@@ -13,12 +14,11 @@ use App\Model\Db\CommonDb;
  */
 class CloudStorageRepository
 {
-    private $cloudModel = null;
-
-    public function __construct()
-    {
-        $this->cloudModel = new CloudStorage;
-    }
+    /**
+     * @Inject()
+     * @var CloudStorage
+     */
+    private $cloudModel;
 
     public function cloudSelect(array $searchWhere, int $perSize): array
     {

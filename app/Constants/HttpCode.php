@@ -20,4 +20,9 @@ class HttpCode extends AbstractConstants
      * @Message("未授权")
      */
     const  NO_AUTH = 403;
+
+    /**
+     * @Message("路由不存在")
+     */
+    const NOT_FUND = 404;
 }
