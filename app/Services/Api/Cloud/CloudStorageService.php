@@ -22,7 +22,7 @@ class CloudStorageService
 
     public function findCloud(array $requestParams): array
     {
-        $searchWhere = [['key', '=', $requestParams['key']]];
+        $searchWhere = [['key', '=', $requestParams['key']], ['status', '=', 1]];
         $bean        = $this->cloudRepositories->cloudFind((array)$searchWhere);
         if (!empty($bean)) {
             $createToken         = CloudLib::createToken((int)$bean['cloud_platform_id'], (array)$bean);
@@ -31,7 +31,7 @@ class CloudStorageService
             if ($createToken['code']) {
                 // 更新数据库 token
                 $this->cloudRepositories->cloudUpdate(
-                    (array)['token' => $createToken['token']],
+                    (array)['token' => $createToken['token'], 'expire_time' => $createToken['expire_time']],
                     (array)[['key', '=', $requestParams['key']]]);
             }
             return $bean;

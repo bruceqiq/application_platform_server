@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Repositories\Admin\Cloud;
 
 use App\Model\Admin\CloudStorage;
+use App\Model\Db\CommonDb;
 
 /**
  * 云服务存储
@@ -35,6 +36,11 @@ class CloudStorageRepository
         ];
     }
 
+    public function tokenSelectByWhere(array $searchWhere, array $searchFields = ['*']): array
+    {
+        return CommonDb::selectByWhere((string)$this->cloudModel->getTable(), (array)$searchWhere, (array)$searchFields);
+    }
+
     public function cloudStore(array $requestParams): bool
     {
         try {
@@ -57,9 +63,18 @@ class CloudStorageRepository
         return $result ? true : false;
     }
 
-    public function cloudDelete(array $deleteWhere): bool
+    public function cloudDelete(array $deleteIdArray): bool
     {
-        $result = $this->cloudModel::query()->where($deleteWhere)->delete();
+        $result = $this->cloudModel::query()->whereIn('id', $deleteIdArray)->delete();
+
+        return $result ? true : false;
+    }
+
+    public function tokenStatus(array $updateWhere, int $status): bool
+    {
+        $result = $this->cloudModel::query()->whereIn('id', $updateWhere)->update([
+            'status' => $status,
+        ]);
 
         return $result ? true : false;
     }

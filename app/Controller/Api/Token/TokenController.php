@@ -27,6 +27,7 @@ class TokenController extends BaseController
     protected $tokenService;
 
     /**
+     * @GetMapping(path="get")
      * @GetMapping(path="token")
      * @param TokenKeyValidate $validate
      * @return ResponseInterface
@@ -42,11 +43,19 @@ class TokenController extends BaseController
         } else {
             // 重新获取 token
             $bean = $this->tokenService->findCloud((array)['key' => $key]);
-            return $this->response->success((array)[
-                'key'         => $key,
-                'token'       => $bean['token'],
-                'expire_time' => $bean['expire_time'],
-            ]);
+            if (!empty($bean)) {
+                return $this->response->success((array)[
+                    'key'         => $key,
+                    'token'       => $bean['token'],
+                    'expire_time' => $bean['expire_time'],
+                ]);
+            } else {
+                return $this->response->error((array)[
+                    'key'         => $key,
+                    'token'       => '该key已被禁用或者被删除',
+                    'expire_time' => '该key已被禁用或者被删除',
+                ]);
+            }
         }
     }
 }

@@ -11,10 +11,12 @@ declare(strict_types=1);
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
 
+use App\Middleware\CorsMiddleware;
 use Hyperf\Validation\Middleware\ValidationMiddleware;
 
 return [
     'http' => [
+        CorsMiddleware::class,
         ValidationMiddleware::class,
     ],
 ];

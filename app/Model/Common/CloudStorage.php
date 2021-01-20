@@ -21,6 +21,7 @@ use Carbon\Carbon;
  * @property string $remark
  * @property string $deleted_at
  * @property Carbon $created_at
+ * @property int $status
  * @property Carbon $updated_at
  * @property Carbon $expire_time
  */
@@ -40,6 +41,7 @@ class CloudStorage extends BaseModel
         'remark',
         'expire_time',
         'cloud_platform_id',
+        'status',
     ];
 
     protected $casts = [
@@ -47,10 +49,17 @@ class CloudStorage extends BaseModel
         'created_at'  => 'datetime',
         'updated_at'  => 'datetime',
         'expire_time' => 'datetime',
+        'status'      => 'integer',
     ];
 
     protected $hidden = [
         'deleted_at',
+    ];
+
+    protected $appends = [
+        'status_text',
+        'expire_text',
+        'expire_status',
     ];
 
     public $searchFields = [
@@ -68,10 +77,35 @@ class CloudStorage extends BaseModel
         'cloud_platform_id',
         'created_at',
         'updated_at',
+        'cache_time',
+        'status',
     ];
 
     public function platform()
     {
         return $this->belongsTo(CloudPlatform::class, 'cloud_platform_id', 'id');
+    }
+
+    public function getStatusTextAttribute($key)
+    {
+        return $this->attributes['status'] == 1 ? '启用' : '禁用';
+    }
+
+    public function getExpireTextAttribute($key)
+    {
+        return $this->status() ? '可用' : '失效';
+    }
+
+    public function getExpireStatusAttribute($key)
+    {
+        return $this->status() ? 1 : 2;
+    }
+
+    private function status(): bool
+    {
+        if (!empty($this->attributes['expire_time'])) {
+            return strtotime($this->attributes['expire_time']) > time();
+        }
+        return false;
     }
 }

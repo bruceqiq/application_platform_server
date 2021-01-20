@@ -20,10 +20,11 @@ class CloudStorageValidate extends FormRequest
             'app_id'            => 'required',
             'app_secret'        => 'required',
             'name'              => 'required',
-            'region'            => 'required',
+            'region'            => 'sometimes',
             'bucket'            => 'required',
             'domain'            => 'required',
             'remark'            => 'sometimes',
+            'cache_time'        => 'required|integer'
         ];
     }
 
@@ -36,9 +37,10 @@ class CloudStorageValidate extends FormRequest
             'app_id.required'            => 'appId不能为空',
             'app_secret.required'        => 'appSecret不能为空',
             'name.required'              => '应用名称不能为空',
-            'region.required'            => '应用地区不能为空',
             'bucket.required'            => '应用bucket不能为空',
             'domain.required'            => '应用域名不能为空',
+            'cache_time.required'        => '缓存有效期不能为空',
+            'cache_time.integer'         => '缓存有效期格式不正确',
         ];
     }
 }

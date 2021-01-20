@@ -6,6 +6,7 @@ namespace App\Services\Admin\Cloud;
 use App\Libs\Cache\Redis;
 use App\Libs\Cloud\CloudLib;
 use App\Repositories\Admin\Cloud\CloudStorageRepository;
+use App\Services\App\CacheService;
 
 /**
  * 云服务存储
@@ -59,7 +60,43 @@ class CloudStorageService
 
     public function cloudDelete(array $requestParams): bool
     {
-        return $this->cloudRepository->cloudDelete((array)[['id', '=', $requestParams['id']]]);
+        $idsArray = explode(',', (string)$requestParams['ids']);
+        if ($this->cloudRepository->cloudDelete((array)$idsArray)) {
+            return $this->deleteToken((array)$idsArray);
+        }
+        return false;
+    }
+
+    public function tokenStatus(array $requestParams): bool
+    {
+        $idsArray = explode(',', (string)$requestParams['ids']);
+        $status   = $requestParams['status'] ?? 2;
+        if ($this->cloudRepository->tokenStatus((array)$idsArray, (int)$status)) {
+            if ($status == 2) {
+                return $this->deleteToken((array)$idsArray);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private function deleteToken(array $idArray): bool
+    {
+        // 读取缓存配置信息
+        $tokenConfig = config('app.token_delete');
+        if ($tokenConfig) {
+            $searchWhere = [];
+            foreach ($idArray as $value) {
+                array_push($searchWhere, ['id', '=', $value]);
+            }
+            $items = $this->cloudRepository->tokenSelectByWhere((array)$searchWhere, (array)['key']);
+            if (!empty($items)) {
+                $keyArray = array_column($items, 'key');
+                return CacheService::deleteRedisCacheByWhere((array)$keyArray);
+            }
+            return true;
+        }
+        return true;
     }
 
     private function createToken(array $info): array
@@ -76,17 +113,19 @@ class CloudStorageService
     {
         return [
             'cloud_platform_id' => $requestParams['cloud_platform_id'],
+            'cache_time'        => trim((string)$requestParams['cache_time']),
             'key'               => $requestParams['key'] ?? (md5((string)time())),
             'app_id'            => trim($requestParams['app_id']),
             'app_secret'        => trim($requestParams['app_secret']),
             'name'              => $requestParams['name'],
-            'region'            => trim($requestParams['region']),
+            'region'            => $requestParams['region'] ?? '',
             'bucket'            => trim($requestParams['bucket']),
             'domain'            => trim($requestParams['domain']),
             'remark'            => $requestParams['remark'] ?? '',
             'token'             => '',
             'expire_time'       => date('Y-m-d H:i:s'),
             'id'                => $requestParams['id'] ?? 0,
+            'status'            => $requestParams['status'] ?? 2,
         ];
     }
 }

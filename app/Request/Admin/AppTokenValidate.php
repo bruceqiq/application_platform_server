@@ -21,6 +21,7 @@ class AppTokenValidate extends FormRequest
             'app_secret'        => 'required',
             'name'              => 'required',
             'remark'            => 'sometimes',
+            'cache_time'        => 'required|integer'
         ];
     }
 
@@ -34,6 +35,8 @@ class AppTokenValidate extends FormRequest
             'app_secret.required'        => 'appSecret不能为空',
             'name.required'              => '应用名称不能为空',
             'domain.required'            => '应用域名不能为空',
+            'cache_time.required'        => '缓存有效期不能为空',
+            'cache_time.integer'         => '缓存有效期格式不正确',
         ];
     }
 }

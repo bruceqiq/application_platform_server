@@ -16,8 +16,9 @@ class CloudQiNiu implements CloudInterface
     public function createToken(string $appId, string $appSecret, string $bucket): string
     {
         try {
-            $auth = new Auth($appId, $appSecret);
-            return $auth->uploadToken($bucket);
+            $auth  = new Auth($appId, $appSecret);
+            $token = $auth->uploadToken($bucket);
+            return $token;
         } catch (\Exception $exception) {
             return '';
         }
