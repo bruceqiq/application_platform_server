@@ -17,6 +17,7 @@ class TokenLib
      * 创建第三方存储Token
      * @param int $platformId
      * @param array $cloudInfo ['app_id', 'app_secret', 'key', 'cloud_platform_id', 'cache_time']
+     * @param array $cloudInfo ['app_id', 'app_secret', 'key', 'cloud_platform_id']
      * @return array ['token', 'expire_time']
      */
     public static function createToken(int $platformId, array $cloudInfo): array
@@ -31,7 +32,6 @@ class TokenLib
                 break;
             default:
         }
-        var_dump('token', $returnArray);
         if (!empty($returnArray['token'])) {
             $cacheInfo = json_encode(['key' => $cloudInfo['key'], 'expire_time' => $dateTime, 'token' => $returnArray['token']]);
             (Redis::getRedisInstance())->redis->set($cloudInfo['key'], $cacheInfo);

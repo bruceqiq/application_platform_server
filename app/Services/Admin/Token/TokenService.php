@@ -8,6 +8,7 @@ use App\Libs\Token\TokenLib;
 use App\Repositories\Admin\Token\TokenRepository;
 use App\Services\App\CacheService;
 
+
 /**
  * 微信
  * Class TokenService
@@ -33,6 +34,7 @@ class TokenService
             array_push($searchWhere, ['name', 'like', '%' . $requestParams['name'] . '%']);
         }
 
+
         return $this->tokenRepository->tokenSelect((array)$searchWhere, (int)$perSize);
     }
 
@@ -46,6 +48,7 @@ class TokenService
             }
             echo __CLASS__ . "||" . __METHOD__;
             (Redis::getRedisInstance())->redis->del($info['key']);
+
             return false;
         }
         return false;
@@ -56,6 +59,7 @@ class TokenService
         $info = $this->dataFormatter((array)$requestParams);
         $info = $this->createToken((array)$info);
         var_dump('info', $info);
+
         if ($info['code']) {
             unset($info['key']);
             unset($info['code']);
@@ -103,6 +107,9 @@ class TokenService
             return true;
         }
         return true;
+=======
+        return $this->tokenRepository->tokenDelete((array)[['id', '=', $requestParams['id']]]);
+>>>>>>> origin/develop
     }
 
     private function createToken(array $info): array
@@ -126,10 +133,15 @@ class TokenService
             'domain'            => trim($requestParams['domain']),
             'remark'            => $requestParams['remark'] ?? '',
             'token'             => '',
+<<<<<<< HEAD
             'cache_time'        => $requestParams['cache_time'] ?? 7200,
             'expire_time'       => date('Y-m-d H:i:s'),
             'id'                => $requestParams['id'] ?? 0,
             'status'            => $requestParams['status'] ?? 2,
+=======
+            'expire_time'       => date('Y-m-d H:i:s'),
+            'id'                => $requestParams['id'] ?? 0,
+>>>>>>> origin/develop
         ];
     }
 }
