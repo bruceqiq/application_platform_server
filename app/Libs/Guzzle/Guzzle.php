@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Libs\Guzzle;
 
 
+use GuzzleHttp\Exception\GuzzleException;
 use Hyperf\Guzzle\ClientFactory;
 
 /**
@@ -19,6 +20,14 @@ class Guzzle
         $this->guzzleClient = $clientFactory;
     }
 
+    /**
+     * Get请求
+     * @param string $uri 请求地址
+     * @param array $options 请求选项
+     * @return array 返回参数
+     * @throws GuzzleException
+     * @author kert
+     */
     public function getRequest(string $uri, array $options = [])
     {
         $client   = $this->guzzleClient->create((array)['base_uri' => $uri]);
