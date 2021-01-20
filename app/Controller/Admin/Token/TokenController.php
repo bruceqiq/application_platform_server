@@ -81,7 +81,7 @@ class TokenController extends BaseController
     /**
      * @PostMapping(path="status")
      * @return ResponseInterface
-     * @author ert
+     * @author kert
      */
     public function status()
     {

@@ -107,9 +107,6 @@ class TokenService
             return true;
         }
         return true;
-=======
-        return $this->tokenRepository->tokenDelete((array)[['id', '=', $requestParams['id']]]);
->>>>>>> origin/develop
     }
 
     private function createToken(array $info): array
@@ -133,15 +130,10 @@ class TokenService
             'domain'            => trim($requestParams['domain']),
             'remark'            => $requestParams['remark'] ?? '',
             'token'             => '',
-<<<<<<< HEAD
             'cache_time'        => $requestParams['cache_time'] ?? 7200,
             'expire_time'       => date('Y-m-d H:i:s'),
             'id'                => $requestParams['id'] ?? 0,
             'status'            => $requestParams['status'] ?? 2,
-=======
-            'expire_time'       => date('Y-m-d H:i:s'),
-            'id'                => $requestParams['id'] ?? 0,
->>>>>>> origin/develop
         ];
     }
 }

@@ -7,6 +7,7 @@ use App\Libs\Cache\Redis;
 use App\Libs\Cloud\CloudLib;
 use App\Repositories\Admin\Cloud\CloudStorageRepository;
 use App\Services\App\CacheService;
+use Hyperf\Di\Annotation\Inject;
 
 /**
  * 云服务存储
@@ -15,12 +16,11 @@ use App\Services\App\CacheService;
  */
 class CloudStorageService
 {
+    /**
+     * @Inject()
+     * @var CloudStorageRepository
+     */
     private $cloudRepository;
-
-    public function __construct()
-    {
-        $this->cloudRepository = new CloudStorageRepository;
-    }
 
     public function cloudSelect(array $requestParams): array
     {

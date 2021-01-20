@@ -16,7 +16,6 @@ class TokenLib
     /**
      * 创建第三方存储Token
      * @param int $platformId
-     * @param array $cloudInfo ['app_id', 'app_secret', 'key', 'cloud_platform_id', 'cache_time']
      * @param array $cloudInfo ['app_id', 'app_secret', 'key', 'cloud_platform_id']
      * @return array ['token', 'expire_time']
      */

@@ -30,12 +30,4 @@ class Redis
         }
         return self::$instance;
     }
-
-    private function __clone()
-    {
-    }
-
-    private function __destruct()
-    {
-    }
 }

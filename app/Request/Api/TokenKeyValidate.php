@@ -16,11 +16,7 @@ class TokenKeyValidate extends FormRequest
     public function rules(): array
     {
         return [
-<<<<<<< HEAD:app/Request/Api/TokenKeyValidate.php
             'key' => 'exists:token,key',
-=======
-            'key' => 'exists:app_token,key',
->>>>>>> origin/develop:app/Request/Api/KeyValidate.php
         ];
     }
 
