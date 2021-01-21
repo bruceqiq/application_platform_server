@@ -10,7 +10,6 @@ use App\Services\App\CacheService;
 use Hyperf\Di\Annotation\Inject;
 
 /**
- * 云服务存储
  * Class CloudService
  * @package App\Services\Admin\Cloud
  */

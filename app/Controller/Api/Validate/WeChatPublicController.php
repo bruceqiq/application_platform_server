@@ -8,6 +8,7 @@ use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
 
 /**
+ * 第三方平台服务器验证
  * Class WeChatPublicController
  * @Controller(prefix="validate/wechat/public")
  * @package App\Controller\Api\Validate
@@ -15,6 +16,7 @@ use Hyperf\HttpServer\Annotation\GetMapping;
 class WeChatPublicController extends BaseController
 {
     /**
+     * 微信公众号服务器验证
      * @GetMapping(path="token")
      * @return bool
      * @author kert

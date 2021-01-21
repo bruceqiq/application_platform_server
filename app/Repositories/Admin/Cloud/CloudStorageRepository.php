@@ -8,7 +8,6 @@ use App\Model\Db\CommonDb;
 use Hyperf\Di\Annotation\Inject;
 
 /**
- * 云服务存储
  * Class CloudService
  * @package App\Repositories\Admin\Cloud
  */

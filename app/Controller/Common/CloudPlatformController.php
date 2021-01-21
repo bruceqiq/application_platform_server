@@ -11,7 +11,7 @@ use Hyperf\HttpServer\Annotation\GetMapping;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * 平台
+ * 应用平台信息参数
  * Class CloudPlatformController
  * @Controller(prefix="common/cloud/platform")
  * @package App\Controller\Common
@@ -25,6 +25,7 @@ class CloudPlatformController extends BaseController
     protected $cloudPlatformService;
 
     /**
+     * 应用平台
      * @GetMapping(path="list")
      * @return ResponseInterface
      */

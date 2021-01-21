@@ -14,6 +14,7 @@ use Hyperf\HttpServer\Annotation\GetMapping;
 use Psr\Http\Message\ResponseInterface;
 
 /**
+ * app_id和app_secret授权模式token获取
  * Class TokenController
  * @Controller(prefix="app/token")
  * @package App\Controller\Api\Token

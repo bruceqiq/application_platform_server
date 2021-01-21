@@ -7,7 +7,6 @@ use App\Model\Common\CloudPlatform;
 use Hyperf\Di\Annotation\Inject;
 
 /**
- * 云平台
  * Class CloudPlatformRepositories
  * @package App\Repositories\Common
  */

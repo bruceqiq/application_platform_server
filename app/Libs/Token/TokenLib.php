@@ -7,7 +7,7 @@ use App\Libs\Cache\Redis;
 use App\Libs\Token\Handler\TokenWeChatPublic;
 
 /**
- * token
+ * app_id和app_secret授权模式token
  * Class TokenLib
  * @package App\Libs\Token
  */

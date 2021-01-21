@@ -8,7 +8,6 @@ use App\Model\Db\CommonDb;
 use Hyperf\Di\Annotation\Inject;
 
 /**
- * 微信
  * Class TokenRepositories
  * @package App\Repositories\Admin\WeChat
  */

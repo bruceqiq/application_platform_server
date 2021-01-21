@@ -14,7 +14,7 @@ use Hyperf\HttpServer\Annotation\PostMapping;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * 微信
+ * app_id和app_secret授权模式token获取
  * Class TokenController
  * @Controller(prefix="admin/app/token")
  * @package App\Controller\Admin\Token

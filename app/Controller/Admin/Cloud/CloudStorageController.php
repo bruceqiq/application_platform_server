@@ -13,7 +13,7 @@ use Hyperf\HttpServer\Annotation\PostMapping;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * 云服务存储
+ * 第三方对象存储token
  * Class CloudSController
  * @Controller(prefix="admin/cloud/storage")
  * @package App\Controller\Admin\Cloud

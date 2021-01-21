@@ -11,7 +11,7 @@ class CreateCloudTable extends Migration
         Schema::create('cloud_storage_token', function (Blueprint $table) {
             $table->integer('id', true, true);
             $table->integer('cloud_platform_id', false, true)->comment('平台id');
-            $table->char('key', 32)->comment('数据key');
+            $table->uuid('key')->comment('数据key');
             $table->string('app_id', 255)->comment('平台key');
             $table->string('app_secret', 255)->comment('平台secret');
             $table->string('name', 32)->comment('平台名称');

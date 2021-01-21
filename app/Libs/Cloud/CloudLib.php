@@ -7,7 +7,7 @@ use App\Libs\Cache\Redis;
 use App\Libs\Cloud\Handler\CloudQiNiu;
 
 /**
- * 对象存储依赖库
+ * 第三方对象存储token
  * Class CloudLib
  * @package App\Libs\Cloud
  */

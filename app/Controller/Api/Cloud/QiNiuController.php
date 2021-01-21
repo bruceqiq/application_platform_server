@@ -13,7 +13,7 @@ use Hyperf\HttpServer\Annotation\GetMapping;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * 七牛云
+ * 第三方对象存储token
  * Class QiNiuController
  * @Controller(prefix="cloud/qiniu")
  * @package App\Controller\Api\Cloud

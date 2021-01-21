@@ -11,7 +11,6 @@ use Hyperf\Di\Annotation\Inject;
 
 
 /**
- * 微信
  * Class TokenService
  * @package App\Services\Admin\Token
  */

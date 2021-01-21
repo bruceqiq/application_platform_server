@@ -8,7 +8,6 @@ use App\Repositories\Api\Cloud\CloudStorageRepository;
 use Hyperf\Di\Annotation\Inject;
 
 /**
- * 云服务存储
  * Class CloudService
  * @package App\Services\Admin\Cloud
  */
