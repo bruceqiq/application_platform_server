@@ -34,7 +34,7 @@ class TokenController extends BaseController
      */
     public function index()
     {
-        $lists = $this->tokenService->tokenSelect((array)$this->request->all());
+        $lists = $this->tokenService->select((array)$this->request->all());
 
         return $this->response->success((array)$lists);
     }
@@ -48,7 +48,7 @@ class TokenController extends BaseController
     public function store(AppTokenValidate $validate)
     {
         echo 1;
-        $createResult = $this->tokenService->tokenCreate((array)$this->request->all());
+        $createResult = $this->tokenService->create((array)$this->request->all());
 
         return $createResult ? $this->response->success() : $this->response->error();
     }
@@ -61,7 +61,7 @@ class TokenController extends BaseController
      */
     public function update(AppTokenValidate $validate)
     {
-        $updateResult = $this->tokenService->tokenUpdate((array)$this->request->all());
+        $updateResult = $this->tokenService->update((array)$this->request->all());
 
         return $updateResult ? $this->response->success() : $this->response->error();
     }
@@ -73,7 +73,7 @@ class TokenController extends BaseController
      */
     public function delete()
     {
-        $deleteResult = $this->tokenService->tokenDelete((array)$this->request->all());
+        $deleteResult = $this->tokenService->delete((array)$this->request->all());
 
         return $deleteResult ? $this->response->success() : $this->response->error();
     }

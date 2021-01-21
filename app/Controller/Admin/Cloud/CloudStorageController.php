@@ -33,7 +33,7 @@ class CloudStorageController extends BaseController
      */
     public function index()
     {
-        $lists = $this->cloudStoreService->cloudSelect((array)$this->request->all());
+        $lists = $this->cloudStoreService->select((array)$this->request->all());
 
         return $this->response->success((array)$lists);
     }
@@ -46,7 +46,7 @@ class CloudStorageController extends BaseController
      */
     public function store(CloudStorageValidate $validate)
     {
-        $createResult = $this->cloudStoreService->cloudStore((array)$this->request->all());
+        $createResult = $this->cloudStoreService->create((array)$this->request->all());
 
         return $createResult ? $this->response->success() : $this->response->error();
     }
@@ -59,7 +59,7 @@ class CloudStorageController extends BaseController
      */
     public function update(CloudStorageValidate $validate)
     {
-        $updateResult = $this->cloudStoreService->cloudUpdate((array)$this->request->all());
+        $updateResult = $this->cloudStoreService->update((array)$this->request->all());
 
         return $updateResult ? $this->response->success() : $this->response->error();
     }
@@ -71,7 +71,7 @@ class CloudStorageController extends BaseController
      */
     public function delete()
     {
-        $deleteResult = $this->cloudStoreService->cloudDelete((array)$this->request->all());
+        $deleteResult = $this->cloudStoreService->delete((array)$this->request->all());
 
         return $deleteResult ? $this->response->success() : $this->response->error();
     }

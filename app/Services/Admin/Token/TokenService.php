@@ -7,6 +7,7 @@ use App\Libs\Cache\Redis;
 use App\Libs\Token\TokenLib;
 use App\Repositories\Admin\Token\TokenRepository;
 use App\Services\App\CacheService;
+use App\Services\ServiceInterface;
 use Hyperf\Di\Annotation\Inject;
 
 
@@ -14,7 +15,7 @@ use Hyperf\Di\Annotation\Inject;
  * Class TokenService
  * @package App\Services\Admin\Token
  */
-class TokenService
+class TokenService implements ServiceInterface
 {
     /**
      * @Inject()
@@ -22,7 +23,13 @@ class TokenService
      */
     private $tokenRepository;
 
-    public function tokenSelect(array $requestParams): array
+    /**
+     * 查询数据
+     * @param array $requestParams 请求参数
+     * @return array
+     * @author ert
+     */
+    public function select(array $requestParams): array
     {
         $perSize     = $requestParams['size'] ?? 20;
         $searchWhere = [];
@@ -32,15 +39,21 @@ class TokenService
         if (!empty($requestParams['name'])) {
             array_push($searchWhere, ['name', 'like', '%' . $requestParams['name'] . '%']);
         }
-        return $this->tokenRepository->tokenSelect((array)$searchWhere, (int)$perSize);
+        return $this->tokenRepository->select((array)$searchWhere, (int)$perSize);
     }
 
-    public function tokenCreate(array $requestParams): bool
+    /**
+     * 创建数据
+     * @param array $requestParams 请求参数
+     * @return bool true:成功|false:失败
+     * @author ert
+     */
+    public function create(array $requestParams): bool
     {
         $info = $this->dataFormatter((array)$requestParams);
         $info = $this->createToken((array)$info);
         if ($info['code']) {
-            if ($this->tokenRepository->tokenCreate((array)$info)) {
+            if ($this->tokenRepository->create((array)$info)) {
                 return true;
             }
             (Redis::getRedisInstance())->redis->del($info['key']);
@@ -49,7 +62,13 @@ class TokenService
         return false;
     }
 
-    public function tokenUpdate(array $requestParams): bool
+    /**
+     * 更新数据
+     * @param array $requestParams 请求参数
+     * @return bool true:成功|false:失败
+     * @author ert
+     */
+    public function update(array $requestParams): bool
     {
         $info = $this->dataFormatter((array)$requestParams);
         $info = $this->createToken((array)$info);
@@ -58,15 +77,26 @@ class TokenService
         if ($info['code']) {
             unset($info['key']);
             unset($info['code']);
-            return $this->tokenRepository->tokenUpdate((array)$info, (array)[['id', '=', $requestParams['id']]]);
+            return $this->tokenRepository->update((array)[['id', '=', $requestParams['id']]], (array)$info);
         }
         return false;
     }
 
-    public function tokenDelete(array $requestParams): bool
+    /**
+     * 删除数据
+     * @param array $requestParams 请求参数
+     * @return bool true:成功|false:失败
+     * @author ert
+     */
+    public function delete(array $requestParams): bool
     {
         $idsArray = explode(',', (string)$requestParams['ids']);
-        if ($this->tokenRepository->tokenDelete((array)$idsArray)) {
+
+        $deleteWhere = [];
+        foreach ($idsArray as $value) {
+            array_push($deleteWhere, ['id', '=', $value]);
+        }
+        if ($this->tokenRepository->delete((array)$deleteWhere)) {
             return $this->deleteToken((array)$idsArray);
         }
         return false;
@@ -80,9 +110,13 @@ class TokenService
      */
     public function tokenStatus(array $requestParams): bool
     {
-        $idsArray = explode(',', (string)$requestParams['ids']);
-        $status   = $requestParams['status'] ?? 2;
-        if ($this->tokenRepository->tokenStatus((array)$idsArray, (int)$status)) {
+        $idsArray    = explode(',', (string)$requestParams['ids']);
+        $status      = $requestParams['status'] ?? 2;
+        $updateWhere = [];
+        foreach ($idsArray as $value) {
+            array_push($updateWhere, ['id', '=', $value]);
+        }
+        if ($this->tokenRepository->update((array)$updateWhere, (array)['status' => $status])) {
             if ($status == 2) {
                 return $this->deleteToken((array)$idsArray);
             }

@@ -7,13 +7,14 @@ use App\Libs\Cache\Redis;
 use App\Libs\Cloud\CloudLib;
 use App\Repositories\Admin\Cloud\CloudStorageRepository;
 use App\Services\App\CacheService;
+use App\Services\ServiceInterface;
 use Hyperf\Di\Annotation\Inject;
 
 /**
  * Class CloudService
  * @package App\Services\Admin\Cloud
  */
-class CloudStorageService
+class CloudStorageService implements ServiceInterface
 {
     /**
      * @Inject()
@@ -21,22 +22,34 @@ class CloudStorageService
      */
     private $cloudRepository;
 
-    public function cloudSelect(array $requestParams): array
+    /**
+     * 查询数据
+     * @param array $requestParams 查询条件
+     * @return array
+     * @author ert
+     */
+    public function select(array $requestParams): array
     {
         $perSize     = $requestParams['size'] ?? 20;
         $searchWhere = [];
         if (!empty($requestParams['name'])) {
             array_push($searchWhere, ['name', 'like', '%' . $requestParams['name'] . '%']);
         }
-        return $this->cloudRepository->cloudSelect((array)$searchWhere, (int)$perSize);
+        return $this->cloudRepository->select((array)$searchWhere, (int)$perSize);
     }
 
-    public function cloudStore(array $requestParams): bool
+    /**
+     * 创建数据
+     * @param array $requestParams
+     * @return bool
+     * @author ert
+     */
+    public function create(array $requestParams): bool
     {
         $info = $this->dataFormatter((array)$requestParams);
         $info = $this->createToken((array)$info);
         if ($info['code']) {
-            if ($this->cloudRepository->cloudStore((array)$info)) {
+            if ($this->cloudRepository->create((array)$info)) {
                 return true;
             }
             (Redis::getRedisInstance())->redis->delete($info['key']);
@@ -45,22 +58,39 @@ class CloudStorageService
         return false;
     }
 
-    public function cloudUpdate(array $requestParams): bool
+    /**
+     * 更新数据
+     * @param array $requestParams
+     * @return bool
+     * @author ert
+     */
+    public function update(array $requestParams): bool
     {
         $info = $this->dataFormatter((array)$requestParams);
         $info = $this->createToken((array)$info);
         if ($info['code']) {
             unset($info['key']);
             unset($info['code']);
-            return $this->cloudRepository->cloudUpdate((array)$info, (array)[['id', '=', $requestParams['id']]]);
+            return $this->cloudRepository->update((array)[['id', '=', $requestParams['id']]], (array)$info);
         }
         return false;
     }
 
-    public function cloudDelete(array $requestParams): bool
+    /**
+     * 删除数据
+     * @param array $requestParams
+     * @return bool
+     * @author ert
+     */
+    public function delete(array $requestParams): bool
     {
-        $idsArray = explode(',', (string)$requestParams['ids']);
-        if ($this->cloudRepository->cloudDelete((array)$idsArray)) {
+        $idsArray    = explode(',', (string)$requestParams['ids']);
+        $deleteWhere = [];
+        foreach ($idsArray as $value) {
+            array_push($deleteWhere, ['id', '=', $value]);
+        }
+
+        if ($this->cloudRepository->delete((array)$deleteWhere)) {
             return $this->deleteToken((array)$idsArray);
         }
         return false;
@@ -74,9 +104,13 @@ class CloudStorageService
      */
     public function tokenStatus(array $requestParams): bool
     {
-        $idsArray = explode(',', (string)$requestParams['ids']);
-        $status   = $requestParams['status'] ?? 2;
-        if ($this->cloudRepository->tokenStatus((array)$idsArray, (int)$status)) {
+        $idsArray    = explode(',', (string)$requestParams['ids']);
+        $status      = $requestParams['status'] ?? 2;
+        $updateWhere = [];
+        foreach ($idsArray as $value) {
+            array_push($updateWhere, ['id', '=', $value]);
+        }
+        if ($this->cloudRepository->update((array)$updateWhere, (array)['status' => $status])) {
             if ($status == 2) {
                 return $this->deleteToken((array)$idsArray);
             }
