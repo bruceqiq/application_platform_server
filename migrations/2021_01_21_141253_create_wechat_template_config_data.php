@@ -14,9 +14,10 @@ class CreateWechatTemplateConfigData extends Migration
         Schema::create('wechat_template_config_data', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('wechat_template_config_id', false, true)->comment('模板id');
-            $table->string('key', 32)->comment('配置key');
-            $table->string('value', 20)->comment('配置默认值');
-            $table->string('color', 32)->default("#000000")->comment('文字颜色');
+            $table->string('key_name', 10)->comment('key名称');
+            $table->string('key_value', 20)->comment('key默认值');
+            $table->string('key_color', 10)->default("#000000")->comment('文字颜色');
+            $table->tinyInteger('status', false, true)->default(2)->comment('是否启用,状态1启用2禁用');
             $table->timestamp('deleted_at')->nullable()->comment('删除时间');
             $table->timestamps();
         });

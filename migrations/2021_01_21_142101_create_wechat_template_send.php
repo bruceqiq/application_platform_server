@@ -12,8 +12,8 @@ class CreateWechatTemplateSend extends Migration
     public function up(): void
     {
         Schema::create('wechat_template_send', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->uuid('token_key')->comment('微信token配置key');
+            $table->integer('id', true, true);
+            $table->integer('token_id', false, true)->comment('微信token配置id');
             $table->string('template_id', 100)->comment('微信公众平台模板id');
             $table->string('url', 255)->nullable()->comment('跳转地址');
             $table->string('appid', 100)->nullable()->comment('跳转小程序appid');

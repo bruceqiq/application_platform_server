@@ -12,8 +12,10 @@ class CreateWechatTemplateConfig extends Migration
     public function up(): void
     {
         Schema::create('wechat_template_config', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->uuid('token_key')->comment('微信token配置key');
+            $table->integer('id', true, true);
+            $table->integer('token_id', false, true)->comment('微信token主键id');
+            $table->uuid('key')->comment('唯一key');
+            $table->string('name', 32)->comment('配置名称');
             $table->string('template_id', 100)->comment('微信公众平台模板id');
             $table->string('url', 255)->nullable()->comment('跳转地址');
             $table->string('appid', 100)->nullable()->comment('跳转小程序appid');
@@ -34,4 +36,52 @@ class CreateWechatTemplateConfig extends Migration
     {
         Schema::dropIfExists('wechat_template_config');
     }
+
+    // 统一发送内容
+    // 'key' => '必填',
+    // 'url' => '',
+    // 'appid' => '',
+    // 'pageth' => '',
+    // 'color' => '',
+    // 'user' => ['openid1', 'openid2', 'openid3', ...., 'openid4'],
+    // 'data' => [
+    //    'key1' ['value' => '值1', 'color': "颜色"],
+    //    'key2' ['value' => '值2', 'color': "颜色"],
+    //    'key3' ['value' => '值3', 'color': "颜色"],
+    // ]
+
+    // 独立分发
+    //  'key' => '必填',
+    //  'data' => [
+    //    'openid1' => [
+    //        'url' => '',
+    //        'appid' => '',
+    //        'pageth' => '',
+    //        'color' => '',
+    //        'data' => [
+    //              'key1' => [
+    //                 'value' => '值', 
+    //                 'color' => '颜色',
+    //               ],
+    //              'key2' => [
+    //                  'value' => '值',
+    //                  'color' => '颜色',
+    //               ]
+    //        ]
+    //    ],
+    //    'openid2' => [
+
+    //    ],
+    //    'openid3' => [
+
+    //    ]
+    //  ]
+    // 'url' => '',
+    // 'appid' => '',
+    // 'pageth' => '',
+    // 'color' => '',
+    // 'user' => ['openid1', 'openid2', 'openid3', ...., 'openid4'],
+    // 'data' => [
+    //   'key1' => '值1', 'key2' => '值2', 'key3' => '值2', 'openid' => '', 'color' => ''
+    // ]
 }
