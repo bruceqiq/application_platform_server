@@ -4,6 +4,14 @@ This is an application management platform.
 
 # Code Repository
 
+## Client
+
+[gitee](https://gitee.com/bruce_qiq/application_platform_client)
+
+[github](https://github.com/bruceqiq/application_platform_client)
+
+## Server
+
 [gitee](https://gitee.com/bruce_qiq/application_platform_server)
 
 [github](https://github.com/bruceqiq/application_platform_server)
