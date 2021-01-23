@@ -2,6 +2,12 @@
 
 This is an application management platform.
 
+# Code Repository
+
+[gitee](https://gitee.com/bruce_qiq/application_platform_server)
+
+[github](https://github.com/bruceqiq/application_platform_server)
+
 # Requirements
 
  - PHP >= 7.4
