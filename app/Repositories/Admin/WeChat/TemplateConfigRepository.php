@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Repositories\Admin\WeChat;
 
 
+use App\Model\Admin\WeChatTemplateConfig;
 use App\Repositories\RepositoryInterface;
+use Hyperf\Di\Annotation\Inject;
 
 /**
  * 微信公众号模板配置
@@ -13,6 +15,11 @@ use App\Repositories\RepositoryInterface;
  */
 class TemplateConfigRepository implements RepositoryInterface
 {
+    /**
+     * @Inject()
+     * @var WeChatTemplateConfig
+     */
+    protected $configModel;
 
     /**
      * 数据查询

@@ -2,15 +2,11 @@
 declare(strict_types=1);
 
 namespace App\Model\Admin;
-
-use App\Model\Common\AppToken as AppTokenModel;
-
 /**
- * Token
- * Class WeChatToken
+ * Class TokenStorage
  * @package App\Model\Admin
  */
-class TokenStorage extends AppTokenModel
+class TokenStorage extends \App\Model\Common\AppToken
 {
 
 }

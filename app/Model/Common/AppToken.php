@@ -7,7 +7,7 @@ namespace App\Model\Common;
 use App\Model\BaseModel;
 
 /**
- * 微信
+ * 第三TOKEN
  * Class WeChatPublicToken
  * @package App\Model\Common
  */

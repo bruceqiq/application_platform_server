@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Repositories\Admin\WeChat;
 
 
+use App\Model\Admin\WeChatTemplateConfigData;
 use App\Repositories\RepositoryInterface;
+use Hyperf\Di\Annotation\Inject;
 
 /**
  * 微信模板消息数据配置
@@ -13,6 +15,12 @@ use App\Repositories\RepositoryInterface;
  */
 class TemplateDataRepository implements RepositoryInterface
 {
+    /**
+     * @Inject()
+     * @var WeChatTemplateConfigData
+     */
+    protected $configDataModel;
+
     /**
      * 数据查询
      * @param array $searchWhere 查询条件
