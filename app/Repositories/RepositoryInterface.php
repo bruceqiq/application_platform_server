@@ -38,11 +38,11 @@ interface RepositoryInterface
 
     /**
      * 创建数据
-     * @param array $createDateInfo 创建数据
+     * @param array $createDataInfo 创建数据
      * @return bool true:成功|false:失败
      * @author ert
      */
-    public function create(array $createDateInfo): bool;
+    public function create(array $createDataInfo): bool;
 
     /**
      * 查询指定数据

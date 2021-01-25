@@ -63,4 +63,18 @@ class WeChatTemplateConfig extends BaseModel
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    protected $appends = [
+        'status_text',
+    ];
+
+    public function token()
+    {
+        return $this->belongsTo(AppToken::class, 'cloud_platform_id', 'id')->with(['platform:id,name']);
+    }
+
+    public function getStatusTextAttribute($key)
+    {
+        return $this->attributes['status'] == 1 ? '启用' : '禁用';
+    }
 }

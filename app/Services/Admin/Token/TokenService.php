@@ -50,7 +50,7 @@ class TokenService implements ServiceInterface
      */
     public function create(array $requestParams): bool
     {
-        $info = $this->dataFormatter((array)$requestParams);
+        $info = $this->formatter((array)$requestParams);
         $info = $this->createToken((array)$info);
         if ($info['code']) {
             if ($this->tokenRepository->create((array)$info)) {
@@ -70,7 +70,7 @@ class TokenService implements ServiceInterface
      */
     public function update(array $requestParams): bool
     {
-        $info = $this->dataFormatter((array)$requestParams);
+        $info = $this->formatter((array)$requestParams);
         $info = $this->createToken((array)$info);
         var_dump('info', $info);
 
@@ -167,12 +167,23 @@ class TokenService implements ServiceInterface
     }
 
     /**
-     * 格式化提交表单数据
+     * 查询单条数据
      * @param array $requestParams
      * @return array
      * @author kert
      */
-    private function dataFormatter(array $requestParams): array
+    public function find(array $requestParams): array
+    {
+        // TODO: Implement find() method.
+    }
+
+    /**
+     * 格式化数据
+     * @param array $requestParams
+     * @return array
+     * @author kert
+     */
+    public function formatter(array $requestParams): array
     {
         return [
             'cloud_platform_id' => $requestParams['cloud_platform_id'],

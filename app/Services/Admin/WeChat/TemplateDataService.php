@@ -28,7 +28,7 @@ class TemplateDataService implements ServiceInterface
      */
     public function select(array $requestParams): array
     {
-        // TODO: Implement select() method.
+        return $this->templateDataRepository->select((array)[], (int)$requestParams['size'] ?? 20);
     }
 
     /**
@@ -39,7 +39,10 @@ class TemplateDataService implements ServiceInterface
      */
     public function update(array $requestParams): bool
     {
-        // TODO: Implement update() method.
+        return $this->templateDataRepository->update(
+            (array)['id' => $requestParams['id']],
+            (array)$this->formatter((array)$requestParams)
+        );
     }
 
     /**
@@ -50,7 +53,13 @@ class TemplateDataService implements ServiceInterface
      */
     public function delete(array $requestParams): bool
     {
-        // TODO: Implement delete() method.
+        $idStr   = explode(',', $requestParams['ids']);
+        $idArray = [];
+        foreach ($idStr as $value) {
+            array_push($idArray, ['id', '=', $value]);
+        }
+
+        return $this->templateDataRepository->delete((array)$idArray);
     }
 
     /**
@@ -61,6 +70,34 @@ class TemplateDataService implements ServiceInterface
      */
     public function create(array $requestParams): bool
     {
-        // TODO: Implement create() method.
+        return $this->templateDataRepository->create((array)$this->formatter((array)$requestParams));
+    }
+
+    /**
+     * 查询单条数据
+     * @param array $requestParams
+     * @return array
+     * @author kert
+     */
+    public function find(array $requestParams): array
+    {
+        // TODO: Implement find() method.
+    }
+
+    /**
+     * 格式化数据
+     * @param array $requestParams
+     * @return array
+     * @author kert
+     */
+    public function formatter(array $requestParams): array
+    {
+        return [
+            'wechat_template_config_id' => $requestParams['wechat_template_config_id'],
+            'key_name'                  => trim($requestParams['key_name']),
+            'key_value'                 => $requestParams['key_value'] ?? '无',
+            'key_color'                 => $requestParams['key_color'] ?? '$fff',
+            'status'                    => $requestParams['status'],
+        ];
     }
 }

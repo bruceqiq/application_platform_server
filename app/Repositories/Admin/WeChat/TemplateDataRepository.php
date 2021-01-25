@@ -30,7 +30,22 @@ class TemplateDataRepository implements RepositoryInterface
      */
     public function select(array $searchWhere, int $perSize): array
     {
-        // TODO: Implement select() method.
+        $items = $this->configDataModel::query()
+            ->with(['config:id,name'])
+            ->where($searchWhere)
+            ->select(['wechat_template_config_id',
+                      'key_name',
+                      'key_value',
+                      'key_color',
+                      'status',])
+            ->paginate($perSize);
+
+        return [
+            'items' => $items->items(),
+            'page'  => $items->currentPage(),
+            'size'  => $perSize,
+            'total' => $items->total(),
+        ];
     }
 
     /**
@@ -42,7 +57,9 @@ class TemplateDataRepository implements RepositoryInterface
      */
     public function update(array $updateWhere, array $updateDataInfo): bool
     {
-        // TODO: Implement update() method.
+        $updateRow = $this->configDataModel::query()->where($updateWhere)->update($updateDataInfo);
+
+        return $updateRow ? true : false;
     }
 
     /**
@@ -53,7 +70,9 @@ class TemplateDataRepository implements RepositoryInterface
      */
     public function delete(array $deleteWhere): bool
     {
-        // TODO: Implement delete() method.
+        $updateRows = $this->configDataModel::query()->where($deleteWhere)->delete();
+
+        return $updateRows ? true : false;
     }
 
     /**
@@ -64,7 +83,14 @@ class TemplateDataRepository implements RepositoryInterface
      */
     public function create(array $createDateInfo): bool
     {
-        // TODO: Implement create() method.
+        $model = $this->configDataModel::query()->firstOrNew(
+            [
+                'wechat_template_config_id' => $createDateInfo['wechat_template_config_id'],
+                'key_name'                  => $createDateInfo['key_name'],
+            ],
+            $createDateInfo);
+
+        return $model->save() ? true : false;
     }
 
     /**
@@ -75,6 +101,10 @@ class TemplateDataRepository implements RepositoryInterface
      */
     public function find(array $searchWhere): array
     {
-        // TODO: Implement find() method.
+        $bean = $this->configDataModel::query()
+            ->where($searchWhere)
+            ->get(['wechat_template_config_id', 'key_name', 'key_value', 'key_color', 'status']);
+
+        return !empty($bean) ? $bean->toArray() : [];
     }
 }

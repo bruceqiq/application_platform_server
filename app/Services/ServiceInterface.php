@@ -41,4 +41,20 @@ interface ServiceInterface
      * @author ert
      */
     public function create(array $requestParams): bool;
+
+    /**
+     * 查询单条数据
+     * @param array $requestParams
+     * @return array
+     * @author kert
+     */
+    public function find(array $requestParams): array;
+
+    /**
+     * 格式化数据
+     * @param array $requestParams
+     * @return array
+     * @author kert
+     */
+    public function formatter(array $requestParams): array;
 }

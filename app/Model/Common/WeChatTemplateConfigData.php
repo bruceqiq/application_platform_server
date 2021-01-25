@@ -38,4 +38,9 @@ class WeChatTemplateConfigData extends BaseModel
         'created_at'                => 'datetime',
         'updated_at'                => 'datetime'
     ];
+
+    public function config()
+    {
+        return $this->belongsTo(WeChatTemplateConfig::class);
+    }
 }

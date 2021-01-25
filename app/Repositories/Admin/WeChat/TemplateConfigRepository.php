@@ -30,7 +30,19 @@ class TemplateConfigRepository implements RepositoryInterface
      */
     public function select(array $searchWhere, int $perSize): array
     {
-        // TODO: Implement select() method.
+        $items = $this->configModel::query()
+            ->with(['token:id,key,name'])
+            ->select(['id', 'token_id', 'key', 'name', 'template_id', 'url', 'appid', 'pateth', 'color',
+                      'send_style', 'send_time', 'status', 'created_at'])
+            ->where($searchWhere)
+            ->paginate($perSize);
+
+        return [
+            'items' => $items->items(),
+            'page'  => $items->currentPage(),
+            'size'  => $perSize,
+            'total' => $items->total(),
+        ];
     }
 
     /**
@@ -42,7 +54,9 @@ class TemplateConfigRepository implements RepositoryInterface
      */
     public function update(array $updateWhere, array $updateDataInfo): bool
     {
-        // TODO: Implement update() method.
+        $updateRow = $this->configModel::query()->where($updateWhere)->update($updateDataInfo);
+
+        return $updateRow ? true : false;
     }
 
     /**
@@ -53,18 +67,22 @@ class TemplateConfigRepository implements RepositoryInterface
      */
     public function delete(array $deleteWhere): bool
     {
-        // TODO: Implement delete() method.
+        $updateRows = $this->configModel::query()->where($deleteWhere)->delete();
+
+        return $updateRows ? true : false;
     }
 
     /**
      * 创建数据
-     * @param array $createDateInfo 创建数据
+     * @param array $createDataInfo 创建数据
      * @return bool true:成功|false:失败
      * @author ert
      */
-    public function create(array $createDateInfo): bool
+    public function create(array $createDataInfo): bool
     {
-        // TODO: Implement create() method.
+        $model = $this->configModel::query()->firstOrNew(['template_id' => $createDataInfo['template_id']], $createDataInfo);
+
+        return $model->save() ? true : false;
     }
 
     /**
@@ -75,6 +93,13 @@ class TemplateConfigRepository implements RepositoryInterface
      */
     public function find(array $searchWhere): array
     {
-        // TODO: Implement find() method.
+        $bean = $this->configModel::query()
+            ->with(['token:id,key,name'])
+            ->select(['id', 'token_id', 'key', 'name', 'template_id', 'url', 'appid', 'pateth', 'color',
+                      'send_style', 'send_time', 'status', 'created_at'])
+            ->where($searchWhere)
+            ->get();
+
+        return !empty($bean) ? $bean->toArray() : [];
     }
 }
