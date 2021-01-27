@@ -33,17 +33,13 @@ class TemplateDataRepository implements RepositoryInterface
         $items = $this->configDataModel::query()
             ->with(['config:id,name'])
             ->where($searchWhere)
-            ->select(['wechat_template_config_id',
-                      'key_name',
-                      'key_value',
-                      'key_color',
-                      'status',])
+            ->select(['wechat_template_config_id', 'key_name', 'key_value', 'key_color', 'status', 'id'])
             ->paginate($perSize);
 
         return [
             'items' => $items->items(),
             'page'  => $items->currentPage(),
-            'size'  => $perSize,
+            'size'  => (int)$perSize,
             'total' => $items->total(),
         ];
     }

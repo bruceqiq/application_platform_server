@@ -28,7 +28,9 @@ class TemplateDataService implements ServiceInterface
      */
     public function select(array $requestParams): array
     {
-        return $this->templateDataRepository->select((array)[], (int)$requestParams['size'] ?? 20);
+        $searchWhere = [['wechat_template_config_id', '=', $requestParams['config_id'] ?? 0]];
+
+        return $this->templateDataRepository->select((array)$searchWhere, (int)$requestParams['size'] ?? 20);
     }
 
     /**
@@ -93,11 +95,11 @@ class TemplateDataService implements ServiceInterface
     public function formatter(array $requestParams): array
     {
         return [
-            'wechat_template_config_id' => $requestParams['wechat_template_config_id'],
+            'wechat_template_config_id' => $requestParams['config_id'],
             'key_name'                  => trim($requestParams['key_name']),
             'key_value'                 => $requestParams['key_value'] ?? '无',
-            'key_color'                 => $requestParams['key_color'] ?? '$fff',
-            'status'                    => $requestParams['status'],
+            'key_color'                 => $requestParams['key_color'] ?? '#fff',
+            'status'                    => $requestParams['status'] ?? 1,
         ];
     }
 }

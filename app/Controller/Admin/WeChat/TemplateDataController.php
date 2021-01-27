@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Controller\Admin\WeChat;
 
 use App\Controller\BaseController;
+use App\Request\Admin\WeChatTemplateConfigDataValidate;
 use App\Services\Admin\WeChat\TemplateDataService;
+use App\Services\ServiceInterface;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
@@ -33,29 +35,37 @@ class TemplateDataController extends BaseController
      */
     public function index()
     {
-        return $this->response->success();
+        $items = $this->templateDataService->select((array)$this->request->all());
+
+        return $this->response->success((array)$items);
     }
 
     /**
      * 创建配置
      * @PostMapping(path="store")
+     * @param WeChatTemplateConfigDataValidate $validate
      * @return ResponseInterface
      * @author kert
      */
-    public function store()
+    public function store(WeChatTemplateConfigDataValidate $validate)
     {
-        return $this->response->success();
+        $createResult = $this->templateDataService->create((array)$this->request->all());
+
+        return $createResult ? $this->response->success() : $this->response->error();
     }
 
     /**
      * 更新配置
      * @PostMapping(path="update")
+     * @param WeChatTemplateConfigDataValidate $validate
      * @return ResponseInterface
      * @author kert
      */
-    public function update()
+    public function update(WeChatTemplateConfigDataValidate $validate)
     {
-        return $this->response->success();
+        $updateResult = $this->templateDataService->update((array)$this->request->all());
+
+        return $updateResult ? $this->response->success() : $this->response->error();
     }
 
     /**
@@ -66,6 +76,8 @@ class TemplateDataController extends BaseController
      */
     public function delete()
     {
-        return $this->response->success();
+        $deleteResult = $this->templateDataService->delete((array)$this->request->all());
+
+        return $deleteResult ? $this->response->success() : $this->response->error();
     }
 }

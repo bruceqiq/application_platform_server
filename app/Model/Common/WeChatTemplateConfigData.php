@@ -41,6 +41,6 @@ class WeChatTemplateConfigData extends BaseModel
 
     public function config()
     {
-        return $this->belongsTo(WeChatTemplateConfig::class);
+        return $this->belongsTo(WeChatTemplateConfig::class, 'wechat_template_config_id', 'id');
     }
 }
