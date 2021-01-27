@@ -47,7 +47,6 @@ class TokenController extends BaseController
      */
     public function store(AppTokenValidate $validate)
     {
-        echo 1;
         $createResult = $this->tokenService->create((array)$this->request->all());
 
         return $createResult ? $this->response->success() : $this->response->error();

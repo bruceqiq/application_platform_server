@@ -104,7 +104,7 @@ class TokenService implements ServiceInterface
 
     /**
      * 设置上下架状态
-     * @param array $requestParams
+     * @param array $requestParams 请求参数
      * @return bool
      * @author kert
      */
@@ -127,7 +127,7 @@ class TokenService implements ServiceInterface
 
     /**
      * 根据配置删除token
-     * @param array $idArray
+     * @param array $idArray 请求参数
      * @return bool
      * @author kert
      */
@@ -174,7 +174,12 @@ class TokenService implements ServiceInterface
      */
     public function find(array $requestParams): array
     {
-        // TODO: Implement find() method.
+        $searchWhere = [];
+        if (!empty($requestParams['token_id'])) {
+            array_push($searchWhere, ['id', '=', $requestParams['token_id']]);
+        }
+
+        return $this->tokenRepository->find((array)$searchWhere);
     }
 
     /**

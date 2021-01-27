@@ -99,7 +99,13 @@ class TokenRepository implements RepositoryInterface
      */
     public function find(array $searchWhere): array
     {
-        // TODO: Implement find() method.
+        $bean = $this->tokenModel::query()->with(['platform:id,name'])->where($searchWhere)->first($this->tokenModel->searchFields);
+
+        if (!empty($bean)) {
+            return $bean->toArray();
+        }
+
+        return [];
     }
 
     public function tokenSelectByWhere(array $searchWhere, array $searchFields = ['*']): array
