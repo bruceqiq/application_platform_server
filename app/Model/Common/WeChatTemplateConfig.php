@@ -44,7 +44,7 @@ class WeChatTemplateConfig extends BaseModel
         'template_id',
         'url',
         'appid',
-        'pateth',
+        'pageth',
         'color',
         'send_style',
         'send_time',
@@ -70,7 +70,7 @@ class WeChatTemplateConfig extends BaseModel
 
     public function token()
     {
-        return $this->belongsTo(AppToken::class, 'cloud_platform_id', 'id')->with(['platform:id,name']);
+        return $this->belongsTo(AppToken::class)->with(['platform:id,name']);
     }
 
     public function getStatusTextAttribute($key)

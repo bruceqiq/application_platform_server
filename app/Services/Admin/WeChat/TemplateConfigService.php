@@ -100,7 +100,7 @@ class TemplateConfigService implements ServiceInterface
             'template_id' => trim($requestParams['template_id']),
             'url'         => $requestParams['url'] ?? '',
             'appid'       => $requestParams['appid'] ?? '',
-            'pateth'      => $requestParams['pateth'] ?? '',
+            'pageth'      => $requestParams['pageth'] ?? '',
             'color'       => $requestParams['color'] ?? '',
             'send_style'  => $requestParams['send_style'],
             'send_time'   => $requestParams['send_time'],

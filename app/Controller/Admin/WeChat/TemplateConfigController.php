@@ -5,6 +5,7 @@ namespace App\Controller\Admin\WeChat;
 
 
 use App\Controller\BaseController;
+use App\Request\Admin\WeChatTemplateConfigValidate;
 use App\Services\Admin\WeChat\TemplateConfigService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
@@ -34,29 +35,37 @@ class TemplateConfigController extends BaseController
      */
     public function index()
     {
-        return $this->response->success();
+        $items = $this->templateConfigService->select((array)$this->request->all());
+
+        return $this->response->success((array)$items);
     }
 
     /**
      * 创建配置
      * @PostMapping(path="store")
+     * @param WeChatTemplateConfigValidate $validate
      * @return ResponseInterface
      * @author kert
      */
-    public function store()
+    public function store(WeChatTemplateConfigValidate $validate)
     {
-        return $this->response->success();
+        $createResult = $this->templateConfigService->create((array)$this->request->all());
+
+        return $createResult ? $this->response->success() : $this->response->error();
     }
 
     /**
      * 更新配置
      * @PostMapping(path="update")
+     * @param WeChatTemplateConfigValidate $validate
      * @return ResponseInterface
      * @author kert
      */
-    public function update()
+    public function update(WeChatTemplateConfigValidate $validate)
     {
-        return $this->response->success();
+        $updateResult = $this->templateConfigService->update((array)$this->request->all());
+
+        return $updateResult ? $this->response->success() : $this->response->error();
     }
 
     /**
@@ -67,6 +76,8 @@ class TemplateConfigController extends BaseController
      */
     public function delete()
     {
-        return $this->response->success();
+        $deleteResult = $this->templateConfigService->delete((array)$this->request->all());
+
+        return $deleteResult ? $this->response->success() : $this->response->error();
     }
 }

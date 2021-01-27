@@ -31,8 +31,8 @@ class TemplateConfigRepository implements RepositoryInterface
     public function select(array $searchWhere, int $perSize): array
     {
         $items = $this->configModel::query()
-            ->with(['token:id,key,name'])
-            ->select(['id', 'token_id', 'key', 'name', 'template_id', 'url', 'appid', 'pateth', 'color',
+            ->with(['token:id,key,name,cloud_platform_id'])
+            ->select(['id', 'token_id', 'key', 'name', 'template_id', 'url', 'appid', 'pageth', 'color',
                       'send_style', 'send_time', 'status', 'created_at'])
             ->where($searchWhere)
             ->paginate($perSize);
