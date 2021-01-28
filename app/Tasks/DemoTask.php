@@ -22,7 +22,6 @@ class DemoTask
 
     public function execute()
     {
-        value(time());
         $this->logger->info(date('Y-m-d H:i:s', time()));
     }
 }
