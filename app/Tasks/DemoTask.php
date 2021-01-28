@@ -22,7 +22,7 @@ class DemoTask
 
     public function execute()
     {
-        var_dump(time());
+        var_dump('当前时间', time());
         $this->logger->info(date('Y-m-d H:i:s', time()));
     }
 }
