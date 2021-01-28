@@ -22,6 +22,7 @@ class DemoTask
 
     public function execute()
     {
+        var_dump(time());
         $this->logger->info(date('Y-m-d H:i:s', time()));
     }
 }
