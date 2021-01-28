@@ -3,7 +3,6 @@
 .project
 *.patch
 .idea/
-.git/
 runtime/
 vendor/
 .phpintel/
