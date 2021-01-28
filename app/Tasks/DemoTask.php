@@ -22,6 +22,5 @@ class DemoTask
 
     public function execute()
     {
-        $this->logger->info(date('Y-m-d H:i:s', time()));
     }
 }
