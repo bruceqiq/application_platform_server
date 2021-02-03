@@ -9,7 +9,7 @@ use Hyperf\Di\Annotation\Inject;
 
 /**
  * Class DemoTask
- * @Crontab(name="demo",rule="* * * * *",callback="execute")
+ * @Crontab(name="demo",rule="*\/10 * * * * *",callback="execute")
  * @package App\Tasks
  */
 class DemoTask

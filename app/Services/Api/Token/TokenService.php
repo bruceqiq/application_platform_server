@@ -19,6 +19,12 @@ class TokenService
      */
     private $tokenRepository;
 
+    /**
+     * 查询token自动生成缓存
+     * @param array $requestParams
+     * @return array
+     * @author ert
+     */
     public function findCloud(array $requestParams): array
     {
         $searchWhere = [['key', '=', $requestParams['key'] ?? 0], ['status', '=', 1]];
