@@ -60,6 +60,13 @@ class SendTemplateTask
                     'send_status'  => 2,
                     'send_message' => $outputArray['errmsg']
                 ];
+                $result        = $this->sendService->update((array)[
+                    'msgid'        => $outputArray['msgid'],
+                    'id'           => $value->id,
+                    'send_status'  => 1,
+                    'send_message' => $outputArray['errmsg']
+                ]);
+                var_dump('更新结果', $result);
             } else {
                 $updateArray[] = [
                     'id'           => $value->id,

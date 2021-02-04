@@ -101,4 +101,13 @@ class SendRepository implements RepositoryInterface
 
         return !empty($bean) ? $bean->toArray() : [];
     }
+
+    /**
+     * 批量更新数据
+     * @param array $updateInfo
+     */
+    public function batchUpdate(array $updateInfo): void
+    {
+        $this->sendModel->batchUpdate($this->sendModel->getTable(), $updateInfo);
+    }
 }

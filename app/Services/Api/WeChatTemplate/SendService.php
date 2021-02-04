@@ -46,7 +46,8 @@ class SendService implements ServiceInterface
      */
     public function update(array $requestParams): bool
     {
-        // TODO: Implement update() method.
+        $updateInfo = $this->formatter((array)$requestParams);
+        return $this->sendRepositoy->update((array)[['id', '=', $requestParams['id']]], (array)$updateInfo);
     }
 
     /**
@@ -90,6 +91,26 @@ class SendService implements ServiceInterface
      */
     public function formatter(array $requestParams): array
     {
-        // TODO: Implement formatter() method.
+        $updateInfo = [];
+        if (!empty($requestParams['msgid'])) {
+            $updateInfo['msgid'] = $requestParams['msgid'];
+        }
+        if (!empty($requestParams['send_status'])) {
+            $updateInfo['send_status'] = $requestParams['send_status'];
+        }
+        if (!$requestParams['send_message']) {
+            $updateInfo['send_message'] = $requestParams['send_message'];
+        }
+
+        return $updateInfo;
+    }
+
+    /**
+     * 批量更新数据
+     * @param array $updateInfo
+     */
+    public function batchUpdate(array $updateInfo): void
+    {
+        $this->sendRepositoy->batchUpdate($updateInfo);
     }
 }
