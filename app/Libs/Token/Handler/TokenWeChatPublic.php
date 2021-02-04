@@ -6,6 +6,7 @@ namespace App\Libs\Token\Handler;
 
 use App\Libs\Guzzle\Guzzle;
 use App\Libs\Token\TokenInterface;
+use GuzzleHttp\Exception\GuzzleException;
 use Hyperf\Di\Annotation\Inject;
 
 /**
@@ -21,6 +22,14 @@ class TokenWeChatPublic implements TokenInterface
      */
     protected $guzzle;
 
+    /**
+     * 生成微信公众号access_token
+     * @param string $appId
+     * @param string $appSecret
+     * @return string
+     * @throws GuzzleException
+     * @author ert
+     */
     public function createToken(string $appId, string $appSecret): string
     {
         $url    = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$appId}&secret={$appSecret}";

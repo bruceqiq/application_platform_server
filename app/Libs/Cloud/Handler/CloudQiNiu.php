@@ -13,6 +13,14 @@ use Qiniu\Auth;
  */
 class CloudQiNiu implements CloudInterface
 {
+    /**
+     * 生成七牛云存储token
+     * @param string $appId
+     * @param string $appSecret
+     * @param string $bucket
+     * @return string
+     * @author ert
+     */
     public function createToken(string $appId, string $appSecret, string $bucket): string
     {
         try {

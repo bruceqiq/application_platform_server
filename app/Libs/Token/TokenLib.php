@@ -5,6 +5,7 @@ namespace App\Libs\Token;
 
 use App\Libs\Cache\Redis;
 use App\Libs\Token\Handler\TokenWeChatPublic;
+use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * app_id和app_secret授权模式token
@@ -18,6 +19,7 @@ class TokenLib
      * @param int $platformId
      * @param array $cloudInfo ['app_id', 'app_secret', 'key', 'cloud_platform_id']
      * @return array ['token', 'expire_time']
+     * @throws GuzzleException
      */
     public static function createToken(int $platformId, array $cloudInfo): array
     {
