@@ -50,6 +50,6 @@ class CloudStorageService
             array_push($searchWhere, ['expire_time', '<', $requestParams['expire_time']]);
         }
 
-        return $this->cloudRepositories->cloudSelect((array)$searchWhere);
+        return $this->cloudRepositories->cloudSelect((array)$searchWhere, (array)['key']);
     }
 }

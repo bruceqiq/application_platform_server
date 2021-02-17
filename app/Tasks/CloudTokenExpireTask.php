@@ -9,7 +9,7 @@ use Hyperf\Di\Annotation\Inject;
 
 /**
  * 应用token过期自动刷新任务
- * @Crontab(name="flush_cloud_token",rule="* * * * * *",callback="flushToken")
+ * @Crontab(name="flush_cloud_token",rule="*\/60 * * * * *",callback="flushToken")
  */
 class CloudTokenExpireTask
 {

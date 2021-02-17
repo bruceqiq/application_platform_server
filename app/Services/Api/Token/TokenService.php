@@ -58,6 +58,6 @@ class TokenService
             array_push($searchWhere, ['expire_time', '<', $requestParams['expire_time']]);
         }
 
-        return $this->tokenRepository->cloudSelect((array)$searchWhere);
+        return $this->tokenRepository->cloudSelect((array)$searchWhere, (array)['key']);
     }
 }
