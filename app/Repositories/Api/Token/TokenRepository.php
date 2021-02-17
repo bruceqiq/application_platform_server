@@ -32,4 +32,26 @@ class TokenRepository
 
         return $result ? true : false;
     }
+
+    /**
+     * 查询所有token信息
+     * @param array $searchWhere 查询条件
+     * @param array $searchFields 查询字段
+     * @param int $perSize 分页大小
+     * @return array
+     */
+    public function cloudSelect(array $searchWhere, array $searchFields = ['*'], int $perSize = 10): array
+    {
+        $items = $this->tokenModel::query()
+            ->where($searchWhere)
+            ->select($searchFields)
+            ->paginate($perSize);
+
+        return [
+            'items' => $items->items(),
+            'total' => $items->total(),
+            'page'  => $items->currentPage(),
+            'size'  => $perSize,
+        ];
+    }
 }

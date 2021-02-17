@@ -5,6 +5,7 @@ namespace App\Services\Api\Token;
 
 use App\Libs\Token\TokenLib;
 use App\Repositories\Api\Token\TokenRepository;
+use GuzzleHttp\Exception\GuzzleException;
 use Hyperf\Di\Annotation\Inject;
 
 /**
@@ -23,6 +24,7 @@ class TokenService
      * 查询token自动生成缓存
      * @param array $requestParams
      * @return array
+     * @throws GuzzleException
      * @author ert
      */
     public function findCloud(array $requestParams): array
@@ -43,5 +45,19 @@ class TokenService
         }
 
         return $bean;
+    }
+
+    /**
+     * 查询所有Token数据
+     * @return array
+     */
+    public function select(array $requestParams): array
+    {
+        $searchWhere = [];
+        if (!empty($requestParams['expire_time'])) {
+            array_push($searchWhere, ['expire_time', '<', $requestParams['expire_time']]);
+        }
+
+        return $this->tokenRepository->cloudSelect((array)$searchWhere);
     }
 }

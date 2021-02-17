@@ -8,6 +8,7 @@ use App\Controller\BaseController;
 use App\Libs\Cache\Redis;
 use App\Request\Api\TokenKeyValidate;
 use App\Services\Api\Token\TokenService;
+use GuzzleHttp\Exception\GuzzleException;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\GetMapping;
@@ -31,6 +32,7 @@ class TokenController extends BaseController
      * @GetMapping(path="token")
      * @param TokenKeyValidate $validate
      * @return ResponseInterface
+     * @throws GuzzleException
      * @author kert
      */
     public function token(TokenKeyValidate $validate)

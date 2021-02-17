@@ -38,4 +38,18 @@ class CloudStorageService
 
         return $bean;
     }
+
+    /**
+     * 查询所有Token数据
+     * @return array
+     */
+    public function select(array $requestParams): array
+    {
+        $searchWhere = [];
+        if (!empty($requestParams['expire_time'])) {
+            array_push($searchWhere, ['expire_time', '<', $requestParams['expire_time']]);
+        }
+
+        return $this->cloudRepositories->cloudSelect((array)$searchWhere);
+    }
 }
